@@ -1,0 +1,134 @@
+/* HOME PAGE */
+
+/* wrapper 1 */
+
+.main-banner-content {
+    top: 15%;
+    left: 5%;
+}
+
+.main-banner-content h4 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--color-bf4800);
+    margin: 0 0 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.main-banner-content h5 {
+    font-size: 52px;
+    line-height: 64px;
+    letter-spacing: -2px;
+    font-weight: 500;
+    text-transform: none;
+}
+
+.main-banner-content p {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0.4;
+    color: var(--color-131921);
+}
+
+.small-banner {
+    width: 49%;
+}
+
+.small-banner-content {
+    top: 25%;
+    left: 10%;
+}
+
+.small-banner-content h4 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--color-bf4800);
+    margin: 0 0 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.small-banner-content h5 {
+    font-size: 22px;
+    line-height: 34px;
+    letter-spacing: -2px;
+    font-weight: 500;
+    text-transform: none;
+}
+
+.small-banner-content p {
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.4;
+    color: var(--color-131921);
+}
+
+/* wrapper 2 */
+
+.categories > div {
+    width: 25%;
+    padding: 10px 10px 10px 20px;
+}
+
+.categories > div > div {
+    width: 60%;
+}
+
+.categories > div:nth-child(1),
+.categories > div:nth-child(2),
+.categories > div:nth-child(3),
+.categories > div:nth-child(4) {
+    border-bottom: 1px solid var(--color-ededed);
+}
+
+.categories > div:nth-child(1),
+.categories > div:nth-child(2),
+.categories > div:nth-child(3),
+.categories > div:nth-child(5),
+.categories > div:nth-child(6),
+.categories > div:nth-child(7) {
+    border-right: 1px solid var(--color-ededed);
+}
+
+/* famous wrapper */
+
+.famous-card {
+    border-radius: 10px;
+}
+
+.famous-card img{
+    padding: 200px 0 10px;
+}
+
+.famous-card .famous-content {
+    top: 10%;
+    left: 5%;
+}
+
+.famous-content h5 {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+}
+
+.famous-content h6 {
+    font-size: 24px;
+    line-height: 38px;
+    font-weight: 500;
+    color: white;
+}
+
+.famous-content p {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 100;
+    color: white;
+}
+
+/* HOME PAGE ENDS HERE */
