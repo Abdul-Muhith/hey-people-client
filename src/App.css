@@ -14,6 +14,7 @@
   --color-ededed: #ededed;
   --color-777777: #777777;
   --color-1c1c1b: #1c1c1b;
+  --color-f2f2f2: #f2f2f2;
 }
 
 body {
@@ -67,10 +68,3 @@ a {
   font-weight: 500;
   margin-bottom: 30px;
 }
-
-ul {
-  list-style-type: none;
-  cursor: pointer;
-}
-
-

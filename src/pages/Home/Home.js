@@ -7,11 +7,16 @@ import ProductCard from '../../components/Product/ProductCard';
 import SpecialProduct from '../../components/Product/SpecialProduct';
 
 import './Home.css';
+import Meta from '../../components/Meta/Meta';
+import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 
 const Home = () => {
     return (
         <>
-            {/* <div>Home</div> */}
+            {/* <div>Home</div> */ }
+
+            <Meta title='DGC | Home' />
+            <BreadCrumb />
 
             <section className='home-wrapper-1 py-5'>
                 <div className='container-xxl'>
@@ -300,11 +305,13 @@ const Home = () => {
                         <div className='col-12'>
                             <h3 className='section-heading'>Our Latest Blogs</h3>
                         </div>
+                    </div>
 
-                        <BlogCard />
-                        <BlogCard />
-                        <BlogCard />
-                        <BlogCard />
+                    <div className='row'>
+                        <div className='col-3'><BlogCard /></div>
+                        <div className='col-3'><BlogCard /></div>
+                        <div className='col-3'><BlogCard /></div>
+                        <div className='col-3'><BlogCard /></div>
                     </div>
                 </div>
             </secion>

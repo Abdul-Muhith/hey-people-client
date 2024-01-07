@@ -32,6 +32,8 @@
     font-size: 13px;
     line-height: 30px;
     color: var(--color-777777);
+    list-style-type: none;
+    cursor: pointer;
 }
 
 .sub-title {
@@ -58,4 +60,21 @@
 
 .random-products:first-child {
     border-bottom: 1px solid var(--color-ededed);
+}
+
+/* filter-sort-grid */
+
+.filter-sort-grid {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.grid img {
+    width: 35px;
+    height: 35px;
+    background-color: var(--color-f2f2f2);
+    padding: 8px;
+    border-radius: 3px;
+    cursor: pointer;
 }
