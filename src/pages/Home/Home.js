@@ -7,16 +7,11 @@ import ProductCard from '../../components/Product/ProductCard';
 import SpecialProduct from '../../components/Product/SpecialProduct';
 
 import './Home.css';
-import Meta from '../../components/Meta/Meta';
-import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 
 const Home = () => {
     return (
         <>
             {/* <div>Home</div> */ }
-
-            <Meta title='DGC | Home' />
-            <BreadCrumb />
 
             <section className='home-wrapper-1 py-5'>
                 <div className='container-xxl'>

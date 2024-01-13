@@ -17,7 +17,7 @@ const ProductCard = ({ grid }) => {
             {/* <div className='col-3'> */}
 
             <div className={`${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}`}>
-                <Link className='product-card position-relative'>
+                <Link className='product-card position-relative' to='/products/:id'>
 
                     <div className='wishlist-icon position-absolute'>
                         <Link><img src='images/wish.svg' alt='wishlist' /></Link>
@@ -53,7 +53,7 @@ const ProductCard = ({ grid }) => {
             </div>
 
             <div className={`${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}`}>
-                <Link className='product-card position-relative'>
+                <Link className='product-card position-relative' to='/products/:id'>
 
                     <div className='wishlist-icon position-absolute'>
                         <Link><img src='images/wish.svg' alt='wishlist' /></Link>

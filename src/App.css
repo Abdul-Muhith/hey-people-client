@@ -56,6 +56,16 @@ a {
   color: var(--color-131921);
 }
 
+.button-next {
+  background-color: var(--color-febd69);
+  color: var(--color-131921);
+}
+
+.button-next:hover {
+  background-color: var(--color-131921);
+  color: white;
+}
+
 .card-wrapper {
   background-color: white;
   box-shadow: 0 0 10px #0000001a;

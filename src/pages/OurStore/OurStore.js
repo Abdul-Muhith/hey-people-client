@@ -6,6 +6,7 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import Meta from "../../components/Meta/Meta";
 
 import ProductCard from "../../components/Product/ProductCard";
+import ProductColor from "../../components/Product/ProductColor";
 
 import "./OurStore.css";
 
@@ -56,19 +57,8 @@ const OurStore = () => {
                   </div>
 
                   <h5 className="sub-title">Colors</h5>
-                  <div>
-                    <ul className="d-flex flex-wrap gap-10 ps-0 colors">
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                    </ul>
+                  <div className="mb-3">
+                    <ProductColor />
                   </div>
 
                   <h5 className="sub-title">Size</h5>
