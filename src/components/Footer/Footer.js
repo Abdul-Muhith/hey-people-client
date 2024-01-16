@@ -1,6 +1,8 @@
 import { NavLink, Link } from 'react-router-dom';
 import { BsLinkedin, BsGithub, BsYoutube, BsInstagram } from "react-icons/bs";
 
+// import newsletter from '../../../public/images/newsletter.png';
+
 import './Footer.css';
 
 const Footer = () => {

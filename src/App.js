@@ -20,6 +20,8 @@ import RefoundPolicy from './pages/Privacy/RefoundPolicy';
 import ShippingPolicy from './pages/Privacy/ShippingPolicy';
 import TermsAndConditions from './pages/Privacy/TermsAndConditions';
 import SingleProduct from './pages/Product/SingleProduct';
+import Cart from './pages/Cart/Cart';
+import Checkout from './pages/Checkout/Checkout';
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
           <Route path='shipping-policy' element={<ShippingPolicy />} />
           <Route path='terms-conditions' element={<TermsAndConditions />} />
           <Route path='products/:id' element={<SingleProduct />} />
+          <Route path='cart' element={<Cart />} />
+          <Route path='checkout' element={<Checkout />} />
         </Route>
       </Routes>
     </BrowserRouter>
