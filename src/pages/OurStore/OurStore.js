@@ -131,15 +131,15 @@ const OurStore = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-10">
                   <p className="mb-0 d-block w-50">Sort By :</p>
-                  <select className="form-control form-select">
-                    <option value="manual">Featured</option>
-                    <option value="best-selling" defaultValue="Best Selling">Best Selling</option>
-                    <option value="title-asending">Best Selling</option>
-                    <option value="title-desending">Alphabetically, A-Z</option>
-                    <option value="price-asending">Alphabetically, Z-A</option>
-                    <option value="price-desending">Price, low to high</option>
-                    <option value="created-asending">Price, high to low</option>
-                    <option value="created-desending">Date, old to new</option>
+                  <select  defaultValue="manual" className="form-control form-select">
+                    <option value="manual">Select</option>
+                    <option value="best-selling">Best Selling</option>
+                    <option value="title-asending">Alphabetically, A-Z</option>
+                    <option value="title-desending">Alphabetically, Z-A</option>
+                    <option value="price-asending">Price, low to high</option>
+                    <option value="price-desending">Price, high to low</option>
+                    <option value="created-asending">Date, old to new</option>
+                    <option value="created-desending">Date, new to old</option>
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">

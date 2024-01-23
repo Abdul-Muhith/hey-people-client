@@ -23,8 +23,8 @@ const Login = () => {
               <form className='d-flex flex-column gap-15'>
                   <CustomInput type='email' name='email' placeholder='Email' />
                   <CustomInput type='password' name='password' placeholder='Password' />
-                <div>
-                  <Link to='../account/forgot-password' className='text-end d-block'>Forgot Password</Link>
+                <div className='text-end'>
+                  <Link to='../account/forgot-password'>Forgot Password</Link>
 
                   <div className='d-flex justify-content-center align-items-center gap-15 mt-3'>
                     <button className='button border-0' type='submit'>Login</button>
