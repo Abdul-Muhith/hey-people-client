@@ -12,26 +12,19 @@ const userRegistration = async (userData) => {
   }
 };
 
-// const userRegistration = async (user) => {
-//   // console.log('authservice -> ', response.data);
+  // if (response?.data) {
+    // localStorage.setItem('user', JSON.stringify(response?.data));
+  // }
+  // return response.data;
 
-//   if (response?.data) {
-//     localStorage.setItem('user', JSON.stringify(response?.data));
-//   }
+const userLogin = async (userData) => {
+  const response = await axios.post(`${base_url}/user/login`, userData);
 
-//   return response.data;
-// };
-
-// const login = async (user) => {
-//   const response = await axios.post(`${base_url}/user/admin-login`, user);
-//   // console.log('authservice -> ', response.data);
-
-//   if (response?.data) {
-//     localStorage.setItem('user', JSON.stringify(response?.data));
-//   }
-
-//   return response.data;
-// };
+  if (response?.data) {
+    // TODO: work with localStorage on add Case
+    return response.data;
+  }
+};
 
 // const getOrders = async () => {
 //   const response = await axios.get(`${base_url}/user/get-orders`, config);
@@ -41,6 +34,7 @@ const userRegistration = async (userData) => {
 
 const authService = {
   userRegistration,
+  userLogin,
 };
 
 export default authService;

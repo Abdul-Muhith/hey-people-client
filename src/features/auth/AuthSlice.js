@@ -30,14 +30,13 @@ export const userRegistration = createAsyncThunk("auth/user-registration", async
   }
 });
 
-// export const login = createAsyncThunk("auth/admin-login", async (user, thunkAPI) => {
-//   try {
-//     return await authService.login(user);
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error);
-//   }
-// });
-
+export const userLogin = createAsyncThunk("auth/login", async (userData, thunkAPI) => {
+  try {
+    return await authService.userLogin(userData);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 // // TODO: should be delete when other setup is completed
 // export const authSlice = createSlice({
@@ -48,12 +47,6 @@ export const userRegistration = createAsyncThunk("auth/user-registration", async
 //     builder.addCase()
 //   }
 // });
-
-
-
-
-
-
 
 export const authSlice = createSlice({
   name: "auth",
@@ -81,24 +74,30 @@ export const authSlice = createSlice({
         // if (state.isError === true) toast(action.error.message);
         if (state.isError === true) toast(action.error);
       })
-    // TODO: move to order slice
-      // LECTURE 07
-      // .addCase(getOrders.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(getOrders.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isSuccess = true;
-      //   state.orders = action.payload;
-      //   state.message = "success";
-      // })
-      // .addCase(getOrders.rejected, (state, action) => {
-      //   state.isError = true;
-      //   state.isLoading = false;
-      //   state.isSuccess = false;
-      //   state.orders = null;
-      //   state.message = action.error;
-      // })
+      // LECTURE 03
+      .addCase(userLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(userLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.loggedInUser = action.payload;
+        state.message = "User LogIn Successful";
+        if (state.isSuccess === true) {
+          localStorage.setItem('token', action.payload.token);
+          toast.info("User LogIn Successful");
+        }
+      })
+      .addCase(userLogin.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.user = null;
+        state.message = action.error;
+        // if (state.isError === true) toast(action.error.message);
+        if (state.isError === true) toast(action.error);
+      })
   }
 });
 

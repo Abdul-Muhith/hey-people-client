@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Link } from 'react-router-dom';
 
 import Meta from '../../components/Meta/Meta';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
@@ -17,10 +15,6 @@ import { useFormik } from 'formik';
 
 import { userRegistration } from '../../features/auth/AuthSlice';
 
-
-
-
-
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,7 +23,7 @@ const Signup = () => {
   let registrationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is Required"),
     lastName: Yup.string().required("Last Name is Required"),
-    email: Yup.string().email().required("Email is Required"),
+    email: Yup.string().email("Email Should be Valid").required("Email Address is Required"),
     mobile: Yup.string().required("Mobile is Required"),
     password: Yup.string().required("Password is Required"),
   });
