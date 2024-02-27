@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import authService from './AuthService';
 
+import { toast } from 'react-toastify';
+
 const initialState = {
   // user: getUserFromLocalStorage,
   // LECTURE 07
@@ -66,8 +68,9 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.user = action.payload;
-        state.message = "success";
+        state.registeredUser = action.payload;
+        state.message = "User Successfully Registered";
+        if (state.isSuccess === true) toast("User Successfully Registered");
       })
       .addCase(userRegistration.rejected, (state, action) => {
         state.isError = true;
@@ -75,6 +78,8 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.user = null;
         state.message = action.error;
+        // if (state.isError === true) toast(action.error.message);
+        if (state.isError === true) toast(action.error);
       })
     // TODO: move to order slice
       // LECTURE 07

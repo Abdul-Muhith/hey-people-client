@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-// import { base_url } from '../../utils/base_url';
+import { base_url } from '../../utils/base_url';
 // import { config } from '../../utils/axiosConfig';
 
 const userRegistration = async (userData) => {
-  const response = await axios.post(``, userData);
+  // const response = await axios.post(``, userData);
+  const response = await axios.post(`${base_url}/user/register`, userData);
 
   if (response?.data) {
     return response.data;
@@ -12,7 +13,6 @@ const userRegistration = async (userData) => {
 };
 
 // const userRegistration = async (user) => {
-//   const response = await axios.post(`${base_url}/user/admin-login`, user);
 //   // console.log('authservice -> ', response.data);
 
 //   if (response?.data) {
