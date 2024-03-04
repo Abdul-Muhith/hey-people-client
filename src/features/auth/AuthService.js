@@ -21,7 +21,8 @@ const userLogin = async (userData) => {
   const response = await axios.post(`${base_url}/user/login`, userData);
 
   if (response?.data) {
-    // TODO: work with localStorage on add Case
+    // TODO: work with localStorage on add Case (last part of class 04)
+    localStorage.setItem('customer', JSON.stringify(response?.data));
     return response.data;
   }
 };

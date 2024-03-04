@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ReactStars from "react-rating-stars-component";
 
@@ -11,9 +13,34 @@ import ProductColor from "../../components/Product/ProductColor";
 import Container from "../../components/Container/Container";
 import "./OurStore.css";
 
+import { getAllProducts } from "../../features/product/ProductSlice";
+
 const OurStore = () => {
+  const dispatch = useDispatch();
+
   const [grid, setGrid] = useState(4);
   // alert(grid);
+
+  //TODO: my working for
+  // const productState = useSelector((state) => state.product);
+  // const allProducts = productState?.products;
+
+  // TODO: his working
+  const productState = useSelector((state) => state.product?.products);
+
+  // console.log('product state', productState);
+  // console.log('allProducts', allProducts);
+
+  // const getProductsAll = () => {
+  //   dispatch(getAllProducts());
+  // };
+
+  // console.log('getAllProducts -> ', getAllProducts);
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  //   getProductsAll();
+  }, []);
 
   return (
     <>
@@ -156,7 +183,9 @@ const OurStore = () => {
 
             <div className="products-list pb-5">
               <div className="d-flex flex-wrap">
-                <ProductCard grid={grid} />
+                {/* <ProductCard grid={grid} /> */}
+                {/* <ProductCard data={allProducts} grid={grid} /> */}
+                <ProductCard data={productState ? productState : []} grid={grid} />
               </div>
             </div>
           </div>

@@ -1,3 +1,8 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+
+import moment from "moment";
+
 import { Link } from 'react-router-dom';
 import Marquee from "react-fast-marquee";
 
@@ -9,7 +14,24 @@ import Container from '../../components/Container/Container';
 import { services } from '../../utils/Data';
 import './Home.css';
 
+import { getAllBlogs } from "../../features/blog/BlogSlice";
+import { getAllProducts } from "../../features/product/ProductSlice";
+
 const Home = () => {
+    const dispatch = useDispatch();
+
+    const blogState = useSelector((state) => state.blog?.blogs);
+
+    // console.log('blogstate -> ', blogState);
+
+    // TODO: create here a function that dispatches all blogs and call this function in useEffect
+
+    useEffect(() => {
+    dispatch(getAllBlogs());
+    dispatch(getAllProducts());
+    //   getBlogsAll();
+    }, []);
+
     return (
         <>
             {/* <div>Home</div> */ }
@@ -263,10 +285,34 @@ const Home = () => {
                 </div>
 
                 <div className='row'>
-                    <div className='col-3'><BlogCard /></div>
-                    <div className='col-3'><BlogCard /></div>
-                    <div className='col-3'><BlogCard /></div>
-                    <div className='col-3'><BlogCard /></div>
+                    {/* <div className='col-3'><BlogCard /></div> */}
+                    {/* <div className='col-3'><BlogCard /></div> */}
+                    {/* <div className='col-3'><BlogCard /></div> */}
+
+                    { blogState?.map((item, i) => {
+                        if (i < 4) {
+                            return (
+                                <div className='col-3' key={i}>
+                                    <BlogCard
+                                        id={item?._id}
+                                        title={item?.title}
+                                        author={item?.author}
+                                        category={item?.category}
+                                        description={item?.description}
+                                        createdAt={ moment(item?.createdAt).format('MMMM Do YYYY, h:mm:ss a') }
+                                        // March 3rd 2024, 1:07:25 pm
+                                        updatedAt={item?.updatedAt}
+                                        images={item?.images[0]?.url}
+                                        // images={item?.images}
+                                        numViews={item?.numViews}
+                                        likes={item?.likes}
+                                        dislikes={item?.dislikes}
+                                    />
+                                </div>
+                            )
+                        }
+                    })}
+
                 </div>
             </Container>
         </>

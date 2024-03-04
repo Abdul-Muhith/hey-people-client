@@ -4,10 +4,12 @@ import authService from './AuthService';
 
 import { toast } from 'react-toastify';
 
+const getCustomerFromLocalStorage = localStorage.getItem("customer") ? JSON.parse(localStorage.getItem("customer")) : null;
+
 const initialState = {
-  // user: getUserFromLocalStorage,
+  // user: "",
   // LECTURE 07
-  user: "",
+  user: getCustomerFromLocalStorage,
   isError: false,
   isLoading: false,
   isSuccess: false,
