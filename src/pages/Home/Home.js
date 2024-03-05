@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import ReactStars from "react-rating-stars-component";
 
 import moment from "moment";
 
@@ -9,6 +10,7 @@ import Marquee from "react-fast-marquee";
 import BlogCard from '../../components/Blog/BlogCard';
 import ProductCard from '../../components/Product/ProductCard';
 import SpecialProduct from '../../components/Product/SpecialProduct';
+import PopularProduct from "../../components/Product/PopularProduct";
 
 import Container from '../../components/Container/Container';
 import { services } from '../../utils/Data';
@@ -16,13 +18,23 @@ import './Home.css';
 
 import { getAllBlogs } from "../../features/blog/BlogSlice";
 import { getAllProducts } from "../../features/product/ProductSlice";
+import { addProductToWishlist } from "../../features/wishlist/WishlistSlice";
 
 const Home = () => {
     const dispatch = useDispatch();
 
     const blogState = useSelector((state) => state.blog?.blogs);
+    const productState = useSelector((state) => state.product?.products);
 
     // console.log('blogstate -> ', blogState);
+    // console.log('productState -> ', productState);
+
+    const addToWishlist = (id) => {
+        // location.pathname = '/product'
+        // console.log('addToWishlist ID -> ', id);
+        // if(location.pathname !== '/our-store') productId = undefined;
+        dispatch(addProductToWishlist(id));
+    }
 
     // TODO: create here a function that dispatches all blogs and call this function in useEffect
 
@@ -179,10 +191,87 @@ const Home = () => {
                         <h3 className='section-heading'>Featured Collection</h3>
                     </div>
 
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    {/* <ProductCard /> */}
+                    {/* <ProductCard /> */}
+                    {/* <ProductCard /> */}
+                    {/* <ProductCard /> */ }
+
+                    { productState && productState?.map((item, i) => {
+
+                        if (item?.tags === 'featured') {
+                            return (
+                        <div
+                            // className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
+                            className="col-3"
+                            key={ i }
+                        >
+                            <Link
+                                className='product-card position-relative'
+                                // to={productId !== undefined ?  "/our-store" : "/products/:id"}
+                            >
+
+                            {/* <Link
+                                className='product-card position-relative'
+                                to={ `${location.pathname == "/"
+                                    ? "/products/:id"
+                                    : location.pathname == "products/:id"
+                                        ? "/products/:id"
+                                        : ":id"
+                                }` }
+                            > */}
+
+                                <div className='wishlist-icon position-absolute'>
+                                    <button
+                                        className='border-0 bg-transparent'
+                                        onClick={ (e) => addToWishlist(item?._id) }
+                                    >
+                                        <img src='images/wish.svg' alt='wishlist' />
+                                    </button>
+                                </div>
+
+                                <div className='product-image'>
+                                    <img
+                                        alt='product image'
+                                        src='images/watch.jpg'
+                                        className='img-fluid mx-auto'
+                                        width={160}
+                                    />
+                                    <img
+                                        alt='product image'
+                                        src='images/watch-2.jpg'
+                                        className='img-fluid mx-auto'
+                                        width={160}
+                                    />
+                                </div>
+
+                                <div className='product-details'>
+                                    <h6 className='brand'>{ item?.brand }</h6>
+                                    <h5 className='product-title'>{ item?.title }</h5>
+
+                                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ false } activeColor="#ffd700" />
+
+                                    <p className='price'>$ { item?.price }</p>
+                                </div>
+
+                                <div className='action-bar position-absolute'>
+                                    <div className='d-flex flex-column gap-15'>
+                                        <button className='border-0 bg-transparent'>
+                                            <img src='images/prodcompare.svg' alt='compare' />
+                                        </button>
+                                        <button className='border-0 bg-transparent'>
+                                            <img src='images/view.svg' alt='view' />
+                                        </button>
+                                        <button className='border-0 bg-transparent'>
+                                            <img src='images/add-cart.svg' alt='addcart' />
+                                        </button>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                            )
+                        }
+                    })}
+
                 </div>
             </Container>
 
@@ -238,10 +327,33 @@ const Home = () => {
                     </div>
                 </div>
                 <div className='row'>
-                    <SpecialProduct />
-                    <SpecialProduct />
-                    <SpecialProduct />
-                    <SpecialProduct />
+                    {/* <SpecialProduct /> */}
+                    {/* <SpecialProduct /> */}
+                    {/* <SpecialProduct /> */}
+                    {/* <SpecialProduct /> */ }
+
+                    { productState && productState?.map((item, i) => {
+                        if (item?.tags === 'special') {
+                            return (
+                                <SpecialProduct
+                                    key={i}
+                                    id={item?._id}
+                                    title={item?.title}
+                                    brand={item?.brand}
+                                    totalRating={item?.totalRating.toString()}
+                                    price={item?.price}
+                                    quantity={item?.quantity}
+                                    sold={item?.sold}
+                                    images={item?.images[0]?.url}
+                                    // images={item?.images}
+                                    createdAt={ moment(item?.createdAt).format('MMMM Do YYYY, h:mm:ss a') }
+                                    // March 3rd 2024, 1:07:25 pm
+                                    updatedAt={item?.updatedAt}
+                                />
+                            )
+                        }
+                    })}
+
                 </div>
             </Container>
 
@@ -251,10 +363,87 @@ const Home = () => {
                         <h3 className='section-heading'>Our Popular Products</h3>
                     </div>
 
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    {/* <ProductCard /> */}
+                    {/* <ProductCard /> */}
+                    {/* <ProductCard /> */}
+                    {/* <ProductCard /> */}
+
+                    { productState && productState?.map((item, i) => {
+
+                        if (item?.tags === 'popular') {
+                            return (
+                        <div
+                            // className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
+                            className="col-3"
+                            key={ i }
+                        >
+                            <Link
+                                className='product-card position-relative'
+                                // to={productId !== undefined ?  "/our-store" : "/products/:id"}
+                            >
+
+                            {/* <Link
+                                className='product-card position-relative'
+                                to={ `${location.pathname == "/"
+                                    ? "/products/:id"
+                                    : location.pathname == "products/:id"
+                                        ? "/products/:id"
+                                        : ":id"
+                                }` }
+                            > */}
+
+                                <div className='wishlist-icon position-absolute'>
+                                    <button
+                                        className='border-0 bg-transparent'
+                                        onClick={ (e) => addToWishlist(item?._id) }
+                                    >
+                                        <img src='images/wish.svg' alt='wishlist' />
+                                    </button>
+                                </div>
+
+                                <div className='product-image'>
+                                    <img
+                                        alt='product image'
+                                        src='images/watch.jpg'
+                                        className='img-fluid mx-auto'
+                                        width={160}
+                                    />
+                                    <img
+                                        alt='product image'
+                                        src='images/watch-2.jpg'
+                                        className='img-fluid mx-auto'
+                                        width={160}
+                                    />
+                                </div>
+
+                                <div className='product-details'>
+                                    <h6 className='brand'>{ item?.brand }</h6>
+                                    <h5 className='product-title'>{ item?.title }</h5>
+
+                                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ false } activeColor="#ffd700" />
+
+                                    <p className='price'>$ { item?.price }</p>
+                                </div>
+
+                                <div className='action-bar position-absolute'>
+                                    <div className='d-flex flex-column gap-15'>
+                                        <button className='border-0 bg-transparent'>
+                                            <img src='images/prodcompare.svg' alt='compare' />
+                                        </button>
+                                        <button className='border-0 bg-transparent'>
+                                            <img src='images/view.svg' alt='view' />
+                                        </button>
+                                        <button className='border-0 bg-transparent'>
+                                            <img src='images/add-cart.svg' alt='addcart' />
+                                        </button>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                            )
+                        }
+                    })}
+
                 </div>
             </Container>
 

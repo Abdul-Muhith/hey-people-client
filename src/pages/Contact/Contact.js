@@ -1,4 +1,15 @@
-import { AiOutlineHome, AiOutlineMail  } from "react-icons/ai";
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import CustomInput from '../../components/CustomInput/CustomInput';
+
+import { toast } from 'react-toastify';
+
+import * as Yup from 'yup';
+import { useFormik, useField } from 'formik';
+
+import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
 import { BiPhoneCall, BiInfoCircle  } from "react-icons/bi";
 
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
@@ -7,7 +18,63 @@ import Meta from '../../components/Meta/Meta';
 import Container from "../../components/Container/Container";
 import './Contact.css';
 
+import { createQuery } from '../../features/contact/ContactSlice';
+
 const Contact = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    let schema = Yup.object().shape({
+        name: Yup.string().required("Name is Required"),
+        email: Yup.string().email("Email Should be Valid").required("Email is Required"),
+        mobile: Yup.number().required("Mobile Number is Required"),
+        comments: Yup.string().required("Comments is Required"),
+    });
+
+    const contactState = useSelector((state) => state.contact?.contacts);
+    // console.log('contactState -> ', contactState);
+
+    const formik = useFormik({
+        initialValues: {
+        name: '',
+        email: '',
+        mobile: '',
+        comments: '',
+        },
+        validationSchema: schema,
+        onSubmit: values => {
+            dispatch(createQuery(values));
+            formik.resetForm();
+
+        alert(JSON.stringify(values, null, 2));
+        },
+    });
+
+    const nameError = formik.touched.name && formik.errors.name ? (
+        <div className='error'>
+            {formik.errors.name}
+        </div>
+    ) : null;
+
+    const emailError = formik.touched.email && formik.errors.email ? (
+        <div className='error'>
+            {formik.errors.email}
+        </div>
+    ) : null;
+
+    const mobileError = formik.touched.mobile && formik.errors.mobile ? (
+        <div className='error'>
+            {formik.errors.mobile}
+        </div>
+    ) : null;
+
+    const commentsError = formik.touched.comments && formik.errors.comments ? (
+        <div className='error'>
+            {formik.errors.comments}
+        </div>
+    ) : null;
+
     return (
         <>
             {/* <div>Contact</div> */ }
@@ -34,21 +101,66 @@ const Contact = () => {
                         <div className='contact-inner-wrapper d-flex justify-content-around'>
                             <div>
                                 <h3 className='contact-title mb-4'>Contact</h3>
-                                <form className='d-flex flex-column gap-15'>
+                                <form onSubmit={formik.handleSubmit} className='d-flex flex-column gap-15'>
                                     <div>
-                                        <input type='text' className='form-control' placeholder='Name' />
+                                        <CustomInput
+                                            type='text'
+                                            label='Your Full Name'
+                                            name='name'
+                                            onChange={ formik.handleChange("name") }
+                                            onBlur={ formik.handleChange("name") }
+                                            value={ formik.values.name }
+                                            />
+                                        { nameError }
+                                        {/* <input type='text' className='form-control' placeholder='Name' /> */}
                                     </div>
+
                                     <div>
-                                        <input type='email' className='form-control' placeholder='Email' />
+                                        <CustomInput
+                                            type='text'
+                                            label='Enter Valid Email'
+                                            name='email'
+                                            onChange={ formik.handleChange("email") }
+                                            onBlur={ formik.handleChange("email") }
+                                            value={ formik.values.email }
+                                            />
+                                        { emailError }
+                                        {/* <input type='email' className='form-control' placeholder='Email' /> */}
                                     </div>
+
                                     <div>
-                                        <input type='tel' className='form-control' placeholder='Mobile Number' />
+                                        <CustomInput
+                                            type='tel'
+                                            label='Enter Mobile Number'
+                                            name='mobile'
+                                            onChange={ formik.handleChange("mobile") }
+                                            onBlur={ formik.handleChange("mobile") }
+                                            value={ formik.values.mobile }
+                                            />
+                                        { mobileError }
+                                        {/* <input type='tel' className='form-control' placeholder='Mobile Number' /> */}
                                     </div>
+
                                     <div>
-                                        <textarea name='' id='' cols='30' rows='4' className='w-100' placeholder='Coments' />
+                                        <label htmlFor='comments' className='mb-1'>Type Your Comments</label>
+
+                                        <textarea
+                                            cols='30'
+                                            rows='4'
+                                            id='comments'
+                                            type='text'
+                                            name='comments'
+                                            className='w-100 form-control'
+                                            onChange={ formik.handleChange("comments") }
+                                            onBlur={ formik.handleChange("comments") }
+                                            value={ formik.values.comments }
+                                        />
+                                        { commentsError }
+                                        {/* <textarea name='' id='' cols='30' rows='4' className='w-100' placeholder='Coments' /> */}
                                     </div>
+
                                     <div>
-                                            <button className='button border-0'>Submit</button>
+                                            <button className='button border-0' type='submit'>Submit</button>
                                     </div>
                                 </form>
                             </div>

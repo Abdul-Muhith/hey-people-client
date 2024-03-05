@@ -23,7 +23,7 @@ export const getAllProducts = createAsyncThunk("product/get-products", async (th
 // TODO: last time of class 04
 
 export const addProductToWishlist = createAsyncThunk("product/add-product-to-wishlist", async (id, thunkAPI) => {
-    try {
+  try {
       return await productService.addProductToWishlist(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
