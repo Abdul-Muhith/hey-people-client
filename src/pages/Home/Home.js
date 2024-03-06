@@ -4,7 +4,7 @@ import ReactStars from "react-rating-stars-component";
 
 import moment from "moment";
 
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate } from 'react-router-dom';
 import Marquee from "react-fast-marquee";
 
 import BlogCard from '../../components/Blog/BlogCard';
@@ -22,6 +22,7 @@ import { addProductToWishlist } from "../../features/wishlist/WishlistSlice";
 
 const Home = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const blogState = useSelector((state) => state.blog?.blogs);
     const productState = useSelector((state) => state.product?.products);
@@ -204,8 +205,9 @@ const Home = () => {
                             // className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
                             className="col-3"
                             key={ i }
-                        >
-                            <Link
+                            >
+                            {/* <Link */}
+                            <div
                                 className='product-card position-relative'
                                 // to={productId !== undefined ?  "/our-store" : "/products/:id"}
                             >
@@ -259,14 +261,18 @@ const Home = () => {
                                             <img src='images/prodcompare.svg' alt='compare' />
                                         </button>
                                         <button className='border-0 bg-transparent'>
-                                            <img src='images/view.svg' alt='view' />
+                                            <img
+                                                alt='view'
+                                                src='images/view.svg'
+                                                onClick={() => navigate('/products/' + item?._id)}
+                                            />
                                         </button>
                                         <button className='border-0 bg-transparent'>
                                             <img src='images/add-cart.svg' alt='addcart' />
                                         </button>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                         </div>
                             )
                         }
@@ -377,7 +383,8 @@ const Home = () => {
                             className="col-3"
                             key={ i }
                         >
-                            <Link
+                            {/* <Link */}
+                            <div
                                 className='product-card position-relative'
                                 // to={productId !== undefined ?  "/our-store" : "/products/:id"}
                             >
@@ -431,14 +438,18 @@ const Home = () => {
                                             <img src='images/prodcompare.svg' alt='compare' />
                                         </button>
                                         <button className='border-0 bg-transparent'>
-                                            <img src='images/view.svg' alt='view' />
+                                            <img
+                                                alt='view'
+                                                src='images/view.svg'
+                                                onClick={() => navigate('/products/' + item?._id)}
+                                            />
                                         </button>
                                         <button className='border-0 bg-transparent'>
                                             <img src='images/add-cart.svg' alt='addcart' />
                                         </button>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                         </div>
                             )
                         }

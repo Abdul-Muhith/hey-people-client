@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import ReactStars from "react-rating-stars-component";
 
-const SpecialProduct = ({ title, brand, totalRating, price, quantity, sold }) => {
+const SpecialProduct = ({ id, title, brand, totalRating, price, quantity, sold }) => {
 
     // console.log('Special Product _', quantity / quantity + sold * 100 + "%");
     // console.log('Special Product _', sold / (quantity + sold) * 100 + "%");
@@ -66,7 +66,7 @@ const SpecialProduct = ({ title, brand, totalRating, price, quantity, sold }) =>
                                     </div>
                                 </div>
                             </div>
-                            <Link className='button'>Add to Cart</Link>
+                            <Link className='button' to={ `/products/` + id }>View</Link>
                         </div>
                     </div>
                 </div>

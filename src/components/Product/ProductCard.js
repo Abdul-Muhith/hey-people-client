@@ -50,7 +50,8 @@ const ProductCard = ({ grid, data }) => {
                             className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
                             key={ i }
                         >
-                            <Link
+                            {/* <Link */}
+                            <div
                                 className='product-card position-relative'
                                 // to={productId !== undefined ?  "/our-store" : "/products/:id"}
                             >
@@ -109,15 +110,15 @@ const ProductCard = ({ grid, data }) => {
                                         <button className='border-0 bg-transparent'>
                                             <img src='images/prodcompare.svg' alt='compare' />
                                         </button>
-                                        <button className='border-0 bg-transparent'>
+                                        <Link to={`/products/` + item?._id} className='border-0 bg-transparent'>
                                             <img src='images/view.svg' alt='view' />
-                                        </button>
+                                        </Link>
                                         <button className='border-0 bg-transparent'>
                                             <img src='images/add-cart.svg' alt='addcart' />
                                         </button>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                         </div>
                     )
                 })

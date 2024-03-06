@@ -15,8 +15,15 @@ const getAllProducts = async () => {
 //   if (response.data) return response.data;
 // };
 
+const getSingleProduct = async (id) => {
+  const response = await axios.get(`${base_url}/product/${id}`, config);
+
+  return response.data;
+};
+
 const productService = {
   getAllProducts,
+  getSingleProduct,
 };
 
 export default productService;

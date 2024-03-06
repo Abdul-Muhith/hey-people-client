@@ -20,16 +20,13 @@ export const getAllProducts = createAsyncThunk("product/get-products", async (th
   }
 });
 
-// TODO: last time of class 04
-
-export const addProductToWishlist = createAsyncThunk("product/add-product-to-wishlist", async (id, thunkAPI) => {
+export const getSingleProduct = createAsyncThunk("product/get-single-product", async (id, thunkAPI) => {
   try {
-      return await productService.addProductToWishlist(id);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+    return await productService.getSingleProduct(id);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 
 export const resetState = createAction("Reset_all");
 
@@ -56,23 +53,22 @@ export const productSlice = createSlice({
         state.products = null;
         state.message = action.error;
       })
-      // TODO: move to wishlist slice
-      // .addCase(addProductToWishlist.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(addProductToWishlist.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = false;
-      //   state.isSuccess = true;
-      //   state.addToWishlist = action.payload;
-      //   state.message = "Product Added to Wishlist";
-      // })
-      // .addCase(addProductToWishlist.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isSuccess = false;
-      //   state.isError = true;
-      //   state.message = action.error;
-      // })
+      .addCase(getSingleProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.singleProduct = action.payload;
+        state.message = "Single Product Fetched Successfully";
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
       .addCase(resetState, () => initialState);
   }
 });
