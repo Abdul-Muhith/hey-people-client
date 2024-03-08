@@ -8,6 +8,8 @@ import { AiOutlineHeart } from "react-icons/ai";
 import ReactStars from "react-rating-stars-component";
 import ReactImageZoom from "react-image-zoom";
 
+import { toast } from 'react-toastify';
+
 import Meta from '../../components/Meta/Meta';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ProductCard from '../../components/Product/ProductCard';
@@ -17,9 +19,15 @@ import Container from "../../components/Container/Container";
 import './Product.css';
 
 import { getSingleProduct, resetState } from "../../features/product/ProductSlice";
+import { addProductToCart } from "../../features/cart/CartSlice";
 
 const SingleProduct = () => {
+  const [color, setColor] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const [orderdProduct, setOrderdProduct] = useState(true);
+
+  console.log('quantity: ', quantity);
+  console.log('color: ', color);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -47,6 +55,24 @@ const SingleProduct = () => {
     textField.select()
     document.execCommand('copy')
     textField.remove()
+  }
+
+  const uploadCart = () => {
+  // alert('Upload Cart', color, quantity);
+  // console.log('quantity: ', quantity);
+  // console.log('color: ', color);
+    // if (color === null) toast.error("Please Choose a color"); // TODO: amr kora
+    if (color === null) {
+      toast.error("Please Choose a color");
+      return false;
+    } else {
+      dispatch(addProductToCart({
+        productId: getProductId,
+        color,
+        quantity,
+        price: singleProductState?.price
+      }));
+    }
   }
 
   useEffect(() => {
@@ -159,16 +185,37 @@ const SingleProduct = () => {
 
                 <div className="d-flex flex-column gap-10 mt-2 mb-3">
                   <h3 className="mb-0 product-heading">Color : </h3>
-                  <ProductColor />
+                  <ProductColor
+                    setColor={ setColor }
+                    productColor={ singleProductState?.color }
+                  />
                 </div>
 
                 <div className="d-flex flex-row align-items-center gap-15 mt-2 mb-3">
                   <h3 className="mb-0 product-heading">Quantity : </h3>
                   <div className="">
-                    <input type="number" id="" name="" min={1} max={10} style={{width: "70px"}} className="form-control" />
+                    <input
+                      type="number"
+                      id=""
+                      name=""
+                      min={ 1 }
+                      max={ 10 }
+                      className="form-control"
+                      style={ { width: "70px" } }
+                      onChange={ (e) => setQuantity(e.target.value) }
+                      value={ quantity }
+                    />
                   </div>
                   <div className="d-flex align-items-center gap-30 ms-5">
-                    <button className="button border-0" type='submit'>Add to Cart</button>
+                    <button
+                      className="button border-0"
+                      type='submit'
+                      // data-bs-toggle="modal"
+                      // data-bs-target="#staticBackdrop"
+                      onClick={() => uploadCart(singleProductState && singleProductState?._id)}
+                    >
+                      Add to Cart
+                    </button>
                     <button className="button button-next border-0" type='submit'>Buy It Now</button>
                   </div>
                 </div>
