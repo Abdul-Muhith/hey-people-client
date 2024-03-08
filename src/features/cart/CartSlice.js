@@ -22,6 +22,14 @@ export const addProductToCart = createAsyncThunk("cart/create-new-cart", async (
   }
 );
 
+export const getUserAllOwnCarts = createAsyncThunk("cart/get-all-own-carts", async (thunkAPI) => {
+  try {
+    return await cartService.getUserAllOwnCarts();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const getAllOwncarts = createAsyncThunk("cart/get-all-own-carts", async (thunkAPI) => {
   try {
     return await cartService.getAllOwnWishlists();
@@ -50,6 +58,22 @@ export const cartSlice = createSlice({
         if (state.isSuccess) toast.success("Product Added to Cart Successfully");
       })
       .addCase(addProductToCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      .addCase(getUserAllOwnCarts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserAllOwnCarts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.userAllOwnCarts = action.payload;
+        state.message = "Here are loggedIn User's all Own Carts";
+      })
+      .addCase(getUserAllOwnCarts.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;

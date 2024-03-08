@@ -9,6 +9,11 @@ const addProductToCart = async (cart) => {
   if (response.data) return response.data;
 };
 
+const getUserAllOwnCarts = async () => {
+  const response = await axios.get(`${base_url}/user/cart`, config);
+  if (response.data) return response.data;
+};
+
 const getAllOwnWishlists = async () => {
   const response = await axios.get(`${base_url}/user/all-own-wishlist`, config);
   if (response.data) return response.data;
@@ -16,6 +21,7 @@ const getAllOwnWishlists = async () => {
 
 const cartService = {
   addProductToCart,
+  getUserAllOwnCarts,
 };
 
 export default cartService;
