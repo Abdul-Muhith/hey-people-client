@@ -38,6 +38,14 @@ export const getAllOwncarts = createAsyncThunk("cart/get-all-own-carts", async (
   }
 });
 
+export const removeProductFromOwnCart = createAsyncThunk("cart/remove-product-from-own-cart", async (cartItemId, thunkAPI) => {
+  try {
+    return await cartService.removeProductFromOwnCart(cartItemId);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const resetState = createAction("Reset_all");
 
 export const cartSlice = createSlice({
@@ -79,22 +87,24 @@ export const cartSlice = createSlice({
         state.isError = true;
         state.message = action.error;
       })
-      // .addCase(getAllOwnWishlists.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(getAllOwnWishlists.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = false;
-      //   state.isSuccess = true;
-      //   state.allOwnWishlists = action.payload;
-      //   state.message = "Here are all Own Wishlists";
-      // })
-      // .addCase(getAllOwnWishlists.rejected, (state, action) => {
-      //   state.isError = true;
-      //   state.isLoading = false;
-      //   state.isSuccess = false;
-      //   state.message = action.error;
-      // })
+      .addCase(removeProductFromOwnCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeProductFromOwnCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deletedProduct = action.payload;
+        state.message = "Product Deleted From Own Cart Successfully";
+        if (state.isSuccess) toast.success("Product Deleted From Own Cart Successfully");
+      })
+      .addCase(removeProductFromOwnCart.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) toast.error("Something  went Wrong with Delete Product !");
+      })
       .addCase(resetState, () => initialState);
   }
 });

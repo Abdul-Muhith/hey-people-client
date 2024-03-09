@@ -14,14 +14,18 @@ const getUserAllOwnCarts = async () => {
   if (response.data) return response.data;
 };
 
-const getAllOwnWishlists = async () => {
-  const response = await axios.get(`${base_url}/user/all-own-wishlist`, config);
+const removeProductFromOwnCart = async (cartItem) => {
+  // const response = await axios.delete(`${base_url}/user/remove-product-from-own-cart`, {
+  //   cartItemId: cartItem?.cartItemId
+  // }, config);
+  const response = await axios.delete(`${base_url}/user/remove-product-from-own-cart/${cartItem}`, config);
   if (response.data) return response.data;
 };
 
 const cartService = {
   addProductToCart,
   getUserAllOwnCarts,
+  removeProductFromOwnCart,
 };
 
 export default cartService;

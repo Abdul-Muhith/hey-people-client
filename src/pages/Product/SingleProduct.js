@@ -19,23 +19,26 @@ import Container from "../../components/Container/Container";
 import './Product.css';
 
 import { getSingleProduct, resetState } from "../../features/product/ProductSlice";
-import { addProductToCart } from "../../features/cart/CartSlice";
+import { addProductToCart, getUserAllOwnCarts } from "../../features/cart/CartSlice";
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [alreadyAddedToCart, setAlreadyAddedToCart] = useState(false);
   const [orderdProduct, setOrderdProduct] = useState(true);
 
-  console.log('quantity: ', quantity);
-  console.log('color: ', color);
+  // console.log('quantity: ', quantity);
+  // console.log('color: ', color);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   // console.log('location', location.pathname.split("/")[2]);
 
   const getProductId = location.pathname.split("/")[2];
 
   const singleProductState = useSelector((state) => state.product?.singleProduct);
+  const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
   // console.log('singleProductState', singleProductState);
 
   const props = {
@@ -76,8 +79,17 @@ const SingleProduct = () => {
   }
 
   useEffect(() => {
+    for (let i = 0; i < allOwnCartsState?.length; i++) {
+      if (getProductId === allOwnCartsState[i]?.productId?._id) {
+        setAlreadyAddedToCart(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     dispatch(resetState());
     dispatch(getSingleProduct(getProductId));
+    dispatch(getUserAllOwnCarts());
   }, [getProductId])
 
   return (
@@ -183,39 +195,46 @@ const SingleProduct = () => {
                   </div>
                 </div>
 
-                <div className="d-flex flex-column gap-10 mt-2 mb-3">
-                  <h3 className="mb-0 product-heading">Color : </h3>
-                  <ProductColor
-                    setColor={ setColor }
-                    productColor={ singleProductState?.color }
-                  />
-                </div>
-
-                <div className="d-flex flex-row align-items-center gap-15 mt-2 mb-3">
-                  <h3 className="mb-0 product-heading">Quantity : </h3>
-                  <div className="">
-                    <input
-                      type="number"
-                      id=""
-                      name=""
-                      min={ 1 }
-                      max={ 10 }
-                      className="form-control"
-                      style={ { width: "70px" } }
-                      onChange={ (e) => setQuantity(e.target.value) }
-                      value={ quantity }
+                { alreadyAddedToCart === false && <>
+                  <div className="d-flex flex-column gap-10 mt-2 mb-3">
+                    <h3 className="mb-0 product-heading">Color : </h3>
+                    <ProductColor
+                      setColor={ setColor }
+                      productColor={ singleProductState?.color }
                     />
                   </div>
-                  <div className="d-flex align-items-center gap-30 ms-5">
+                </> }
+
+                <div className="d-flex flex-row align-items-center gap-15 mt-2 mb-3">
+
+                  { alreadyAddedToCart === false && <>
+                    <h3 className="mb-0 product-heading">Quantity : </h3>
+                    <div className="me-5">
+                      <input
+                        type="number"
+                        id=""
+                        name=""
+                        min={ 1 }
+                        max={ 10 }
+                        className="form-control"
+                        style={ { width: "70px" } }
+                        onChange={ (e) => setQuantity(e.target.value) }
+                        value={ quantity }
+                      />
+                      </div>
+                  </> }
+
+                  <div className="d-flex align-items-center gap-30">
                     <button
                       className="button border-0"
                       type='submit'
+                      onClick={() => alreadyAddedToCart ? navigate('/cart') : uploadCart()}
                       // data-bs-toggle="modal"
                       // data-bs-target="#staticBackdrop"
-                      onClick={() => uploadCart(singleProductState && singleProductState?._id)}
                     >
-                      Add to Cart
+                      {alreadyAddedToCart ? "Got to Cart" : "Add to Cart"}
                     </button>
+
                     <button className="button button-next border-0" type='submit'>Buy It Now</button>
                   </div>
                 </div>

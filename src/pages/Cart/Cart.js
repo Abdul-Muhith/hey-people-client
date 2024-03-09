@@ -12,13 +12,21 @@ import { toast } from 'react-toastify';
 import Container from '../../components/Container/Container';
 import './Cart.css';
 
-import { getUserAllOwnCarts, resetState } from '../../features/cart/CartSlice';
+import { getUserAllOwnCarts, removeProductFromOwnCart, resetState } from '../../features/cart/CartSlice';
 
 const Cart = () => {
   const dispatch = useDispatch();
 
   const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
-  console.log('allOwnCartsState', allOwnCartsState);
+  // console.log('allOwnCartsState', allOwnCartsState);
+
+  const deleteProduct = (id) => {
+    dispatch(removeProductFromOwnCart(id));
+
+    setTimeout(() => {
+      dispatch(getUserAllOwnCarts());
+    }, 200);
+  }
 
   useEffect(() => {
     dispatch(resetState());
@@ -72,7 +80,10 @@ const Cart = () => {
                         <input type='number' className='form-control' min={1} max={10} name='' id='' value={item?.quantity} />
                       </div>
                       <div>
-                        <AiFillDelete className='text-danger' />
+                        <AiFillDelete
+                          className='text-danger'
+                          onClick={() => deleteProduct(item?._id)}
+                        />
                       </div>
                     </div>
 
