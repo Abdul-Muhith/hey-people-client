@@ -46,6 +46,14 @@ export const removeProductFromOwnCart = createAsyncThunk("cart/remove-product-fr
   }
 });
 
+export const updateProductQuantityFromOwnCart = createAsyncThunk("cart/update-own-product-quantity", async (cartItem, thunkAPI) => {
+  try {
+    return await cartService.updateProductQuantityFromOwnCart(cartItem);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const resetState = createAction("Reset_all");
 
 export const cartSlice = createSlice({
@@ -103,7 +111,25 @@ export const cartSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.message = action.error;
-        if (state.isError) toast.error("Something  went Wrong with Delete Product !");
+        if (state.isError) toast.error("Something went Wrong with Delete Product !");
+      })
+      .addCase(updateProductQuantityFromOwnCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProductQuantityFromOwnCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updetedProductQuantity = action.payload;
+        state.message = "Product Quantity Updated Successfully";
+        if (state.isSuccess) toast.success("Product Quantity Updated Successfully");
+      })
+      .addCase(updateProductQuantityFromOwnCart.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) toast.error("Something went Wrong with Product Quantity Update !");
       })
       .addCase(resetState, () => initialState);
   }

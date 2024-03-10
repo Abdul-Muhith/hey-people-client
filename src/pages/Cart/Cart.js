@@ -12,9 +12,12 @@ import { toast } from 'react-toastify';
 import Container from '../../components/Container/Container';
 import './Cart.css';
 
-import { getUserAllOwnCarts, removeProductFromOwnCart, resetState } from '../../features/cart/CartSlice';
+import { getUserAllOwnCarts, removeProductFromOwnCart, updateProductQuantityFromOwnCart, resetState } from '../../features/cart/CartSlice';
 
 const Cart = () => {
+  const [productQuantity, setProductQuantity] = useState(null);
+  const [productId, setProductId] = useState(null);
+  const [productForm, setProductForm] = useState(null);
   const dispatch = useDispatch();
 
   const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
@@ -28,10 +31,59 @@ const Cart = () => {
     }, 200);
   }
 
+  const updateProductQuantity = (cartItemId, quantity) => {
+    dispatch(updateProductQuantityFromOwnCart({
+      cartItemId,
+      quantity
+    }));
+
+    setTimeout(() => {
+      dispatch(getUserAllOwnCarts());
+    }, 200);
+  };
+
+  const handleChange = (id, e) => {
+    console.log('quantity -> ', e.target.value);
+    console.log('product ID -> ', id);
+    // console.log('handleChange -> ', e.target.name);
+    // setProductQuantity(e.target.value);
+    // setProductId(product);
+    setProductForm({
+      cartItemId: id,
+      quantity: e.target.value
+    });
+  };
+
   useEffect(() => {
     dispatch(resetState());
     dispatch(getUserAllOwnCarts());
   }, [])
+
+  useEffect(() => {
+    // if (allOwnCartsState !== undefined) {
+    // for (let i = 0; i < allOwnCartsState.length; i++) {
+    // console.log('allOwnCartsState -> ', allOwnCartsState[i]?._id);
+    // console.log('productQuantity);', productQuantity);
+    // console.log('productId -> ', productId);
+    // console.log('productForm -> ', productForm);
+    // dispatch(resetState());
+    // dispatch(updateProductQuantity({
+      // cartItemId: productForm.cartItemId,
+      // quantity: productForm.quantity
+    // }));
+
+    if (productForm !== null) {
+      dispatch(updateProductQuantityFromOwnCart({
+        cartItemId: productForm?.cartItemId,
+        quantity: productForm?.quantity
+      }));
+    }
+
+      setTimeout(() => {
+        dispatch(getUserAllOwnCarts());
+        setProductForm(null);
+      }, 200);
+  }, [productForm])
 
   return (
     <>
@@ -77,7 +129,20 @@ const Cart = () => {
 
                     <div className='cart-col-3 d-flex align-items-center gap-15'>
                       <div>
-                        <input type='number' className='form-control' min={1} max={10} name='' id='' value={item?.quantity} />
+                        <input
+                          type='number'
+                          className='form-control'
+                          min={ 1 }
+                          max={ 10 }
+                          name={item?._id}
+                          id=''
+                          // value={ productForm?.quantity ? productForm.quantity : item?.quantity }
+                          value={ item?.quantity }
+                          onChange={ (e) => setProductForm({
+                            cartItemId: item?._id,
+                            quantity: e.target.value
+                          }) }
+                        />
                       </div>
                       <div>
                         <AiFillDelete

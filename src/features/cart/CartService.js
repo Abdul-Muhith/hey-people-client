@@ -22,10 +22,21 @@ const removeProductFromOwnCart = async (cartItem) => {
   if (response.data) return response.data;
 };
 
+const updateProductQuantityFromOwnCart = async (cart) => {
+  // const response = await axios.put(`${base_url}/user/cart/update-own-product-quantity/${cart.cartItemId}/${cart.quantity}`, config);
+  const response = await axios.put(`${base_url}/user/cart/update-own-product-quantity`, {
+    cartItemId: cart?.cartItemId,
+    newQuantity: cart?.quantity
+  }, config);
+
+  if (response.data) return response.data;
+};
+
 const cartService = {
   addProductToCart,
   getUserAllOwnCarts,
   removeProductFromOwnCart,
+  updateProductQuantityFromOwnCart,
 };
 
 export default cartService;
