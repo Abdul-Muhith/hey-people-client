@@ -18,6 +18,7 @@ const Cart = () => {
   const [productQuantity, setProductQuantity] = useState(null);
   const [productId, setProductId] = useState(null);
   const [productForm, setProductForm] = useState(null);
+  const [totalCartAmount, setTotalCartAmount] = useState(0);
   const dispatch = useDispatch();
 
   const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
@@ -60,18 +61,6 @@ const Cart = () => {
   }, [])
 
   useEffect(() => {
-    // if (allOwnCartsState !== undefined) {
-    // for (let i = 0; i < allOwnCartsState.length; i++) {
-    // console.log('allOwnCartsState -> ', allOwnCartsState[i]?._id);
-    // console.log('productQuantity);', productQuantity);
-    // console.log('productId -> ', productId);
-    // console.log('productForm -> ', productForm);
-    // dispatch(resetState());
-    // dispatch(updateProductQuantity({
-      // cartItemId: productForm.cartItemId,
-      // quantity: productForm.quantity
-    // }));
-
     if (productForm !== null) {
       dispatch(updateProductQuantityFromOwnCart({
         cartItemId: productForm?.cartItemId,
@@ -84,6 +73,14 @@ const Cart = () => {
         setProductForm(null);
       }, 200);
   }, [productForm])
+
+  useEffect(() => {
+    let sum = 0;
+    for (let i = 0; i < allOwnCartsState?.length; i++) {
+      sum = sum + (Number(allOwnCartsState[i]?.quantity * allOwnCartsState[i]?.price));
+      setTotalCartAmount(sum);
+    }
+  }, [allOwnCartsState])
 
   return (
     <>
@@ -195,11 +192,12 @@ const Cart = () => {
             <div className='col-12 py-2 mt-4'>
               <div className='d-flex justify-content-between align-items-baseline'>
                 <Link className='button' to='/our-store'>Continue to Shopping</Link>
+
                 <div className='d-flex flex-column align-items-end'>
-                  <h4>Subtotal: $ 1000</h4>
+                  <h4>Subtotal: $ {totalCartAmount}</h4>
                   <p>Taxes and shipping calculated at checkout</p>
                   <Link className='button button-next' to='/checkout'>Checkout</Link>
-              </div>
+                </div>
               </div>
             </div>
           </div>

@@ -1,9 +1,26 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 
 import './Header.css';
 
+import { addProductToCart } from "../../features/cart/CartSlice";
+
 const Header = () => {
+    const [totalCartAmount, setTotalCartAmount] = useState(0);
+    const dispatch = useDispatch();
+
+    const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
+
+    useEffect(() => {
+        let sum = 0;
+        for (let i = 0; i < allOwnCartsState?.length; i++) {
+            sum = sum + (Number(allOwnCartsState[i]?.quantity * allOwnCartsState[i]?.price));
+            setTotalCartAmount(sum);
+        }
+    }, [allOwnCartsState])
+
     return (
         <>
             {/* <div>Header</div> */}
@@ -71,8 +88,8 @@ const Header = () => {
                                     <Link className='d-flex align-items-center gap-10 text-white' to='/cart'>
                                         <img src='images/cart.svg' alt='cart' />
                                         <div className='d-flex flex-column gap-10'>
-                                            <span className='badge bg-white text-dark'>0</span>
-                                            <p className='mb-0'>$ 500</p>
+                                            <span className='badge bg-white text-dark'>{ allOwnCartsState?.length ? allOwnCartsState?.length : 0 }</span>
+                                            <p className='mb-0'>$ {totalCartAmount}</p>
                                         </div>
                                     </Link>
                                 </div>
