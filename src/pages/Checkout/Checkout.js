@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { BiArrowBack } from 'react-icons/bi';
@@ -8,8 +10,28 @@ import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import Container from '../../components/Container/Container';
 import './Checkout.css';
 
+import { getUserAllOwnCarts, resetState } from '../../features/cart/CartSlice';
+
 const Checkout = () => {
 // const breadcrumbDivider = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><path d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='#{$breadcrumb-divider-color}'/></svg>";
+  const [totalCartAmount, setTotalCartAmount] = useState(0);
+  const [shippingAmount, setShippingAmount] = useState(0);
+  const dispatch = useDispatch();
+  const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
+  console.log('allOwnCartsState', allOwnCartsState);
+
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(getUserAllOwnCarts());
+  }, [])
+
+  useEffect(() => {
+    let sum = 0;
+    for (let i = 0; i < allOwnCartsState?.length; i++) {
+      sum = sum + (Number(allOwnCartsState[i]?.quantity * allOwnCartsState[i]?.price));
+      setTotalCartAmount(sum);
+    }
+  }, [allOwnCartsState])
 
   return (
     <>
@@ -85,39 +107,53 @@ const Checkout = () => {
           </div>
 
           <div className="col-5">
-            <div className='border-bottom py-4'>
-              <div className='d-flex align-items-center gap-10 mb-2'>
-                <div className='d-flex gap-10 w-75'>
-                  <div className='position-relative w-25'>
-                    <span style={{top: "-10px", right: "2px"}} className='badge bg-secondary text-white rounded-circle p-2 position-absolute'>1</span>
-                    <img className='img-fluid' src='/images/watch.jpg' alt='product'/>
-                  </div>
-                  <div>
-                    <h5 className='total-price'>title</h5>
-                    <p className='total-price'>price</p>
+            { allOwnCartsState && allOwnCartsState?.map((item, i) => {
+              return (
+                <div key={i} className='border-bottom py-4'>
+                  <div className='d-flex align-items-center gap-10 mb-2'>
+                    <div className='d-flex gap-10 w-75'>
+                      <div className='position-relative w-25'>
+                        <span
+                          style={ { top: "-10px", right: "2px" } }
+                          className='badge bg-secondary text-white rounded-circle p-2 position-absolute'
+                        >{item?.quantity}</span>
+                        <img
+                          className='img-fluid'
+                          src={item?.productId?.images[0]?.url ? item?.productId?.images[0]?.url : '/images/watch.jpg'}
+                          alt='product'
+                          width={ 100 }
+                          height={100}
+                        />
+                      </div>
+                      <div>
+                        <h5 className='total-price'>{item?.productId?.title}</h5>
+                        <p className='total-price'>s / {item?.color?.title}</p>
+                      </div>
+                    </div>
+                    <div className='flex-grow-1'>
+                      <h5>$ {item?.price * item?.quantity}</h5>
+                    </div>
                   </div>
                 </div>
-                <div className='flex-grow-1'>
-                  <h5>$ 100</h5>
-                </div>
-              </div>
-            </div>
+              )
+            })}
 
             <div className='border-bottom py-4'>
               <div className='d-flex justify-content-between align-items-center'>
                 <p className='total'>Subtotal</p>
-                <p className='total-price'>$ 1000</p>
+                <p className='total-price'>$ {totalCartAmount}</p>
               </div>
               <div className='d-flex justify-content-between align-items-center'>
                 <p className='mb-0 total'>Shipping</p>
-                <p className='mb-0 total-price'>$ 1000</p>
+                <p className='mb-0 total-price'>$ {shippingAmount}</p>
               </div>
             </div>
 
             <div className='border-bottom py-4 d-flex justify-content-between align-items-center'>
               <h4 className='total'>Total</h4>
-              <h5 className='total-price'>$ 1000</h5>
+              <h5 className='total-price'>$ {totalCartAmount + shippingAmount}</h5>
             </div>
+
           </div>
         </div>
       </Container>
