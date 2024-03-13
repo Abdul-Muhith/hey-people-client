@@ -16,10 +16,12 @@ const Wishlist = () => {
   // const ownWishlists = wishlistState?.allOwnWishlists;
   // const { allOwnWishlists } = wishlistState;
   const ownWishlists = useSelector((state) => state.wishlist?.allOwnWishlists?.wishlist);
+  const authState = useSelector((state) => state.auth);
 
   // console.log('wishlist state', wishlistState);
   // console.log('allOwnWishlists', allOwnWishlists);
   // console.log('ownWishlists', ownWishlists);
+  // console.log('authState', authState?.loggedInUser);
 
   const getOwnAllWishlistsFromDB = () => {
     dispatch(getAllOwnWishlists());
@@ -36,6 +38,11 @@ const Wishlist = () => {
   useEffect(() => {
     getOwnAllWishlistsFromDB();
   }, []);
+
+  // TODO: try to reload the wishlist when login is successful
+  useEffect(() => {
+    getOwnAllWishlistsFromDB();
+  }, [authState?.loggedInUser]);
 
   return (
     <>

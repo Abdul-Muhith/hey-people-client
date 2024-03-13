@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 
 import './Header.css';
 
 import { addProductToCart } from "../../features/cart/CartSlice";
+import { userLogin } from "../../features/auth/AuthSlice";
 
 const Header = () => {
     const [totalCartAmount, setTotalCartAmount] = useState(0);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
+    const authState = useSelector((state) => state.auth);
 
     useEffect(() => {
         let sum = 0;
@@ -20,6 +23,10 @@ const Header = () => {
             setTotalCartAmount(sum);
         }
     }, [allOwnCartsState])
+
+    useEffect(() => {
+        navigate('/');
+    },[userLogin])
 
     return (
         <>
@@ -79,9 +86,15 @@ const Header = () => {
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className='d-flex align-items-center gap-10 text-white' to='/account/login'>
+                                    <Link
+                                        className='d-flex align-items-center gap-10 text-white'
+                                        to={ authState?.user === null ? "/account/login" : "" }
+                                    >
                                         <img src='images/user.svg' alt='user' />
-                                        <p className='mb-0'>Log in <br /> My Account</p>
+                                        { authState?.user === null
+                                            ? <p className='mb-0'>Log in <br /> My Account</p>
+                                            : <p className='mb-0'>Welcome <br /> {authState?.user?.email}</p>
+                                        }
                                     </Link>
                                 </div>
                                 <div>

@@ -21,6 +21,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const authState = useSelector((state) => state.auth);
+
   let loginSchema = Yup.object().shape({
     email: Yup.string().email("Email Should be Valid").required("Email Address is Required"),
     password: Yup.string().required("Password is Required"),
@@ -33,10 +35,14 @@ const Login = () => {
     },
     validationSchema: loginSchema,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
 
       dispatch(userLogin(values));
-      formik.resetForm();
+      // formik.resetForm();
+
+      setTimeout(() => {
+          navigate('/');
+      }, 300)
     },
   });
 
