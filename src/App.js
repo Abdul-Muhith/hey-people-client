@@ -22,6 +22,7 @@ import TermsAndConditions from './pages/Privacy/TermsAndConditions';
 import SingleProduct from './pages/Product/SingleProduct';
 import Cart from './pages/Cart/Cart';
 import Checkout from './pages/Checkout/Checkout';
+import Orders from './pages/Orders/Orders';
 
 import { PrivateRoutes } from './routing/PrivateRoutes';
 import { OpenRoutes } from './routing/OpenRoutes';
@@ -51,6 +52,7 @@ function App() {
           <Route path='products/:id' element={<SingleProduct />} />
           <Route path='cart' element={<PrivateRoutes><Cart /></PrivateRoutes>} />
           <Route path='checkout' element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
+          <Route path='my-orders' element={<PrivateRoutes><Orders /></PrivateRoutes>} />
         </Route>
       </Routes>
     </BrowserRouter>
