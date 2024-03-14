@@ -7,6 +7,7 @@ import blogReducer from '../features/blog/BlogSlice';
 import contactReducer from '../features/contact/ContactSlice';
 import cartReducer from '../features/cart/CartSlice';
 import orderReducer from '../features/orders/OrdersSlice';
+import profileReducer from '../features/profile/ProfileSlice';
 
 // export const store = configureStore({
 //   reducer: {},
@@ -21,5 +22,6 @@ export const store = configureStore({
     contact: contactReducer,
     cart: cartReducer,
     order: orderReducer,
+    profile: profileReducer,
   },
 });

@@ -12,7 +12,7 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   const ownOrderState = useSelector((state) => state.order?.ownOrders);
-  console.log('ownOrderState', ownOrderState);
+  // console.log('ownOrderState', ownOrderState);
 
   useEffect(() => {
     // dispatch(resetState());
