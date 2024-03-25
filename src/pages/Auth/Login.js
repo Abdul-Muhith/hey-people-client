@@ -95,7 +95,7 @@ const Login = () => {
                 {passwordError}
 
                 <div className='text-end'>
-                  <Link to='../account/forgot-password'>Forgot Password</Link>
+                  <Link to='../account/forgot-password'>Forgot Password?</Link>
 
                   <div className='d-flex justify-content-center align-items-center gap-15 mt-3'>
                     <button className='button border-0' type='submit'>Login</button>

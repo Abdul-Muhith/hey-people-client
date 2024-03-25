@@ -27,15 +27,16 @@ const userLogin = async (userData) => {
   }
 };
 
-// const getOrders = async () => {
-//   const response = await axios.get(`${base_url}/user/get-orders`, config);
+const forgotPasswordToken = async (email) => {
+  const response = await axios.post(`${base_url}/user/forgot-password-token`, email);
 
-//   return response.data;
-// };
+  return response.data;
+};
 
 const authService = {
   userRegistration,
   userLogin,
+  forgotPasswordToken,
 };
 
 export default authService;

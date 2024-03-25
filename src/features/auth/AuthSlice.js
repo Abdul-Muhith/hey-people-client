@@ -40,6 +40,14 @@ export const userLogin = createAsyncThunk("auth/login", async (userData, thunkAP
   }
 });
 
+export const forgotPasswordToken = createAsyncThunk("auth/forgot-password-token", async (userData, thunkAPI) => {
+  try {
+    return await authService.forgotPasswordToken(userData);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 // // TODO: should be delete when other setup is completed
 // export const authSlice = createSlice({
 //   name: "auth",
@@ -92,6 +100,26 @@ export const authSlice = createSlice({
         }
       })
       .addCase(userLogin.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.user = null;
+        state.message = action.error;
+        // if (state.isError === true) toast(action.error.message);
+        if (state.isError === true) toast(action.error);
+      })
+      .addCase(forgotPasswordToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPasswordToken.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.forgotPasswordToken = action.payload;
+        state.message = "Forgot Password Mail Successfully Sent";
+        if (state.isSuccess === true) toast.info("Forgot Password Mail Successfully Sent");
+      })
+      .addCase(forgotPasswordToken.rejected, (state, action) => {
         state.isError = true;
         state.isLoading = false;
         state.isSuccess = false;
