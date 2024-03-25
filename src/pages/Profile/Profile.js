@@ -11,13 +11,18 @@ import { useFormik } from 'formik';
 
 import { FiEdit } from 'react-icons/fi';
 
-import { updateOwnProfile } from '../../features/profile/ProfileSlice';
+import { updateOwnProfile, getOwnProfile } from '../../features/profile/ProfileSlice';
 
 const Profile = () => {
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const ownProfileId = useSelector((state) => state.auth?.user?._id);
+  const ownProfileDetails = useSelector((state) => state.profile?.ownProfile);
+  // console.log('ownProfileId', ownProfileId);
+  // console.log('ownProfileDetails', ownProfileDetails);
 
   let profileSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is Required"),
@@ -31,24 +36,31 @@ const Profile = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      mobile: '',
-      role: '',
-      password: '',
+      firstName: ownProfileDetails?.firstName || '',
+      lastName: ownProfileDetails?.lastName || '',
+      email: ownProfileDetails?.email || '',
+      mobile: ownProfileDetails?.mobile || '',
+      role: ownProfileDetails?.role || '',
+      password: ownProfileDetails?.password || '',
     },
     validationSchema: profileSchema,
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
 
-      if (edit === true) {
+      if (edit === false) {
         dispatch(updateOwnProfile(values));
         // formik.resetForm();
       }
-        // setEdit(false);
+        setEdit(true);
     },
   });
+
+  useEffect(() => {
+    if (ownProfileId !== undefined) {
+    dispatch(getOwnProfile(ownProfileId));
+  }
+  }, [ownProfileId])
+
 
   const firstNameError = formik.touched.firstName && formik.errors.firstName && (
     <div className='error'>
@@ -95,7 +107,7 @@ const Profile = () => {
         <div className='row'>
           <div className='col-12'>
             <div className='d-flex justify-content-center gap-3 align-items-center'>
-              <h3 className='text-center'>{ edit ? "Update Profile" : "Your Profile" }</h3>
+              <h3 className='text-center'>{ edit ? "Your Profile" : "Update Profile" }</h3>
                 <FiEdit
                 className='fs-4'
                 style={{cursor: 'pointer'}}
@@ -104,7 +116,6 @@ const Profile = () => {
             </div>
           </div>
 
-          { edit &&
             <div className='col-12'>
               <form onSubmit={ formik.handleSubmit }>
                 <div className="mt-3">
@@ -116,6 +127,7 @@ const Profile = () => {
                     value={ formik.values.firstName }
                     onChange={ formik.handleChange("firstName") }
                     onBlur={ formik.handleBlur("firstName") }
+                    disabled={ edit }
                   />
                 </div>
                 { firstNameError }
@@ -129,6 +141,7 @@ const Profile = () => {
                     value={ formik.values.lastName }
                     onChange={ formik.handleChange("lastName") }
                     onBlur={ formik.handleBlur("lastName") }
+                    disabled={ edit }
                   />
                 </div>
                 { lastNameError }
@@ -142,6 +155,7 @@ const Profile = () => {
                     value={ formik.values.mobile }
                     onChange={ formik.handleChange("mobile") }
                     onBlur={ formik.handleBlur("mobile") }
+                    disabled={ edit }
                   />
                 </div>
                 { mobileError }
@@ -155,6 +169,7 @@ const Profile = () => {
                     value={ formik.values.role }
                     onChange={ formik.handleChange("role") }
                     onBlur={ formik.handleBlur("role") }
+                    disabled={ edit }
                   />
                 </div>
                 { roleError }
@@ -169,6 +184,7 @@ const Profile = () => {
                     value={ formik.values.email }
                     onChange={ formik.handleChange("email") }
                     onBlur={ formik.handleBlur("email") }
+                    disabled={ edit }
                   />
                   <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
@@ -183,16 +199,18 @@ const Profile = () => {
                     value={ formik.values.password }
                     onChange={ formik.handleChange("password") }
                     onBlur={ formik.handleBlur("password") }
+                    disabled={ edit }
                   />
                 </div>
                 { passwordError }
 
-                <div className="mt-3 text-center">
-                  <button type="submit" className="btn btn-primary">Save</button>
-                </div>
+                { !edit &&
+                  <div className="mt-5 text-center">
+                    <button type="submit" className="btn btn-primary">Save</button>
+                  </div>
+                }
               </form>
             </div>
-          }
         </div>
       </Container>
     </>

@@ -6,7 +6,6 @@ import { BsSearch } from 'react-icons/bs';
 import './Header.css';
 
 import { addProductToCart } from "../../features/cart/CartSlice";
-import { userLogin } from "../../features/auth/AuthSlice";
 
 const Header = () => {
     const [totalCartAmount, setTotalCartAmount] = useState(0);
@@ -15,6 +14,7 @@ const Header = () => {
 
     const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
     const authState = useSelector((state) => state.auth);
+    const { isSuccess, isError, isLoading, loggedInUser } = authState;
 
     useEffect(() => {
         let sum = 0;
@@ -25,8 +25,19 @@ const Header = () => {
     }, [allOwnCartsState])
 
     useEffect(() => {
-        navigate('/');
-    },[userLogin])
+        if (isSuccess && loggedInUser) {
+            window.location.reload();
+        }
+    }, [isSuccess, isError, isLoading])
+
+    const handleLogout = () => {
+        localStorage.clear();
+
+        setTimeout(() => {
+            window.location.reload();
+            navigate('/account/login');
+        }, 300);
+    }
 
     return (
         <>
@@ -144,6 +155,10 @@ const Header = () => {
                                         <NavLink to='/my-orders'>My Orders</NavLink>
                                         <NavLink to='/blogs'>Blogs</NavLink>
                                         <NavLink to='/contact'>Contact</NavLink>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="border border-0 bg-transparent text-white text-uppercase"
+                                        >Logout</button>
                                     </div>
                                 </div>
                             </div>

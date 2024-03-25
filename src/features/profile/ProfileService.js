@@ -15,8 +15,8 @@ const createProduct = async (product) => {
   return response.data;
 };
 
-const getSingleProduct = async (id) => {
-  const response = await axios.get(`${base_url}/product/${id}`, config);
+const getOwnProfile = async (id) => {
+  const response = await axios.get(`${base_url}/user/${id}`, config);
 
   return response.data;
 };
@@ -40,6 +40,7 @@ const updateOwnProfile = async (user) => {
 
 const profileService = {
   updateOwnProfile,
+  getOwnProfile,
 };
 
 export default profileService;

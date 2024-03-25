@@ -1,6 +1,14 @@
-import React from 'react'
-
-const CustomInput = ({type, name, placeholder, label, className, value, onChange, onBlur}) => {
+const CustomInput = ({
+  type,
+  name,
+  placeholder,
+  label,
+  className,
+  value,
+  onChange,
+  onBlur,
+  disabled
+}) => {
   return (
     <>
       {/* <div>CustomInput</div> */}
@@ -22,6 +30,7 @@ const CustomInput = ({type, name, placeholder, label, className, value, onChange
           value={ value }
           onChange={ onChange }
           onBlur={ onBlur }
+          disabled={ disabled }
         />
       </div>
     </>

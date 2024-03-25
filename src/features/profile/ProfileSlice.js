@@ -29,9 +29,9 @@ export const createProducts = createAsyncThunk("user/create-profiles", async (us
   }
 );
 
-export const getSingleProduct = createAsyncThunk("user/get-single-profile", async (id, thunkAPI) => {
+export const getOwnProfile = createAsyncThunk("user/get-own-profile", async (id, thunkAPI) => {
   try {
-    return await profileService.getSingleProduct(id);
+    return await profileService.getOwnProfile(id);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -39,7 +39,6 @@ export const getSingleProduct = createAsyncThunk("user/get-single-profile", asyn
 
 export const updateOwnProfile = createAsyncThunk("user/profile/update-self", async (userData, thunkAPI) => {
   try {
-    console.log('slice -> ', userData);
     return await profileService.updateOwnProfile(userData);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -86,21 +85,21 @@ export const profileSlice = createSlice({
       //   state.isSuccess = false;
       //   state.message = action.error;
       // })
-      // .addCase(getSingleProduct.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(getSingleProduct.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = false;
-      //   state.isSuccess = true;
-      //   state.singleProduct = action.payload;
-      // })
-      // .addCase(getSingleProduct.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = true;
-      //   state.isSuccess = false;
-      //   state.message = action.error;
-      // })
+      .addCase(getOwnProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOwnProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.ownProfile = action.payload;
+      })
+      .addCase(getOwnProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
       .addCase(updateOwnProfile.pending, (state) => {
         state.isLoading = true;
       })
