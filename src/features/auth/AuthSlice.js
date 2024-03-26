@@ -48,7 +48,15 @@ export const forgotPasswordToken = createAsyncThunk("auth/forgot-password-token"
   }
 });
 
-// // TODO: should be delete when other setup is completed
+export const resetOwnPasswordByToken = createAsyncThunk("auth/reset-password", async (userData, thunkAPI) => {
+  try {
+    return await authService.resetOwnPasswordByToken(userData);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// TODO: should be delete when other setup is completed
 // export const authSlice = createSlice({
 //   name: "auth",
 //   initialState: "",
@@ -127,6 +135,25 @@ export const authSlice = createSlice({
         state.message = action.error;
         // if (state.isError === true) toast(action.error.message);
         if (state.isError === true) toast(action.error);
+      })
+      .addCase(resetOwnPasswordByToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetOwnPasswordByToken.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.newPassword = action.payload;
+        state.message = "Password Reset Successfully";
+        if (state.isSuccess === true) toast.success("Password Reset Successfully");
+      })
+      .addCase(resetOwnPasswordByToken.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.user = null;
+        state.message = action.error;
+        if (state.isError === true) toast.error(action.error);
       })
   }
 });

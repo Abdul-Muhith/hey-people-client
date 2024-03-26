@@ -44,7 +44,7 @@ function App() {
           <Route path='account/login' element={<OpenRoutes><Login /></OpenRoutes>} />
           <Route path='account/forgot-password' element={<ForgotPassword />} />
           <Route path='account/signup' element={<OpenRoutes><Signup /></OpenRoutes>} />
-          <Route path='account/reset-password' element={<ResetPassword />} />
+          <Route path='account/reset-password/:token' element={<ResetPassword />} />
           <Route path='blogs/:id' element={<SingleBlog />} />
           <Route path='privacy-policy' element={<PrivacyPolicy />} />
           <Route path='refound-policy' element={<RefoundPolicy />} />

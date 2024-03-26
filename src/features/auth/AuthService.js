@@ -33,10 +33,19 @@ const forgotPasswordToken = async (email) => {
   return response.data;
 };
 
+const resetOwnPasswordByToken = async (userData) => {
+  const response = await axios.put(`${base_url}/user/reset-password/${userData.token}`,
+    { password: userData?.password }
+  );
+
+  return response.data;
+};
+
 const authService = {
   userRegistration,
   userLogin,
   forgotPasswordToken,
+  resetOwnPasswordByToken,
 };
 
 export default authService;
