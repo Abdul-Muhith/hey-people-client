@@ -18,7 +18,7 @@ import ProductColor from "../../components/Product/ProductColor";
 import Container from "../../components/Container/Container";
 import './Product.css';
 
-import { getSingleProduct, resetState } from "../../features/product/ProductSlice";
+import { getSingleProduct, resetState, getAllProducts } from "../../features/product/ProductSlice";
 import { addProductToCart, getUserAllOwnCarts } from "../../features/cart/CartSlice";
 
 const SingleProduct = () => {
@@ -26,9 +26,11 @@ const SingleProduct = () => {
   const [quantity, setQuantity] = useState(1);
   const [alreadyAddedToCart, setAlreadyAddedToCart] = useState(false);
   const [orderdProduct, setOrderdProduct] = useState(true);
+  const [propularProducts, setPopularProducts] = useState([]);
 
   // console.log('quantity: ', quantity);
   // console.log('color: ', color);
+  // console.log('propularProducts: ', propularProducts);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +41,9 @@ const SingleProduct = () => {
 
   const singleProductState = useSelector((state) => state.product?.singleProduct);
   const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
+  const productState = useSelector((state) => state.product?.products);
   // console.log('singleProductState', singleProductState);
+  // console.log('productState', productState);
 
   const props = {
     with: 400,
@@ -87,15 +91,31 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(resetState());
+    // dispatch(resetState());
     dispatch(getSingleProduct(getProductId));
     dispatch(getUserAllOwnCarts());
   }, [getProductId])
 
+    useEffect(() => {
+      let data = [];
+
+      for (let i = 0; i < productState?.length; i++) {
+        if (productState[i]?.tags === 'popular') data.push(productState[i]);
+      }
+
+      setPopularProducts(data);
+    }, [productState])
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [])
+
   return (
     <>
-      <Meta title="DGC | Single Product Name" />
-      <BreadCrumb title="Single Product Name" />
+      {/* <Meta title="DGC | Single Product Name" /> */}
+      {/* <BreadCrumb title="Single Product Name" /> */}
+      <Meta title={`DGC | ${singleProductState?.title}`} />
+      <BreadCrumb title={singleProductState?.title} />
 
       <Container class1='home-wrapper-2 py-5 main-product-wrapper'>
         <div className='row'>
@@ -344,7 +364,7 @@ const SingleProduct = () => {
         </div>
 
         <div className='row'>
-          <ProductCard />
+          <ProductCard data={propularProducts} />
         </div>
       </Container>
     </>

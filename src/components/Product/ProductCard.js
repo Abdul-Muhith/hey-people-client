@@ -38,6 +38,7 @@ const ProductCard = ({ grid, data }) => {
 
     // console.log(location.pathname);
     // console.log('product ID ', productId);
+    console.log('product -> ', data);
 
     return (
         <>
@@ -94,11 +95,17 @@ const ProductCard = ({ grid, data }) => {
                                     <h6 className='brand'>{ item?.brand }</h6>
                                     <h5 className='product-title'>{ item?.title }</h5>
 
-                                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ false } activeColor="#ffd700" />
+                                    <ReactStars
+                                        count={ 5 }
+                                        size={ 24 }
+                                        value={ 3 }
+                                        edit={ false }
+                                        activeColor="#ffd700"
+                                    />
 
                                     <p
                                         className={ `description ${grid === 12 ? "d-block" : "d-none"}` }
-                                        dangerouslySetInnerHTML={ { __html: item?.description.substr(0, 70) + "..." } }
+                                        dangerouslySetInnerHTML={ { __html: item?.description?.substr(0, 70) + "..." } }
                                     >
                                     </p>
 

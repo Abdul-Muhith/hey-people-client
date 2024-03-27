@@ -4,17 +4,24 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 
 import './Header.css';
-
 import { addProductToCart } from "../../features/cart/CartSlice";
+
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const Header = () => {
     const [totalCartAmount, setTotalCartAmount] = useState(0);
+    const [paginate, setPaginate] = useState(true);
+    const [productOptions, setProductOptions] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
     const authState = useSelector((state) => state.auth);
     const { isSuccess, isError, isLoading, loggedInUser } = authState;
+    const productState = useSelector((state) => state.product?.products);
+
+    // const options = range(0, 1000).map((o) => `Item ${o}`);
 
     useEffect(() => {
         let sum = 0;
@@ -29,6 +36,22 @@ const Header = () => {
             window.location.reload();
         }
     }, [isSuccess, isError, isLoading])
+
+    useEffect(() => {
+        let data = [];
+
+        for (let i = 0; i < productState?.length; i++) {
+            const element = productState[i];
+
+            data.push({
+                id: i,
+                prod: element?._id,
+                name: element?.title
+            });
+        }
+
+        setProductOptions(data);
+    }, [productState])
 
     const handleLogout = () => {
         localStorage.clear();
@@ -69,12 +92,22 @@ const Header = () => {
 
                         <div className='col-5'>
                             <div className="input-group">
-                                <input
+                                {/* <input
                                     type="text"
                                     className="form-control py-2"
                                     placeholder="Search Product Here..."
                                     aria-label="Search Product Here..."
                                     aria-describedby="basic-addon2"
+                                /> */}
+                                <Typeahead
+                                    id="pagination-example"
+                                    onPaginate={() => console.log('Results paginated')}
+                                    options={ productOptions }
+                                    onChange={(selected) => { navigate(`/products/${selected[0].prod}`) }}
+                                    paginate={ paginate }
+                                    labelKey={ "name" }
+                                    minLength={2}
+                                    placeholder="Search for Product Here..."
                                 />
                                 <span className="input-group-text p-3" id="basic-addon2">
                                     <BsSearch className='fs-6' />

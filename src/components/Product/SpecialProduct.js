@@ -35,7 +35,7 @@ const SpecialProduct = ({ id, title, brand, totalRating, price, quantity, sold }
                                 <strike>$200</strike>
                             </p>
 
-                            <div className='discount-title d-flex align-items-center gap-10'>
+                            {/* <div className='discount-title d-flex align-items-center gap-10'>
                                 <p className='mb-0'>
                                     <b>5 days</b>
                                 </p>
@@ -45,7 +45,7 @@ const SpecialProduct = ({ id, title, brand, totalRating, price, quantity, sold }
                                     <span className='badge rounded-circle bg-danger'>1</span>:
                                     <span className='badge rounded-circle bg-danger'>1</span>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className='prod-count my-3'>
                                 <p>Products: {quantity}</p>

@@ -49,6 +49,7 @@ const Home = () => {
         <>
             {/* <div>Home</div> */ }
 
+            {/* HERO AREA banner... */}
             <Container class1="home-wrapper-1 py-5">
                 <div className='row'>
                     <div className='col-6'>
@@ -101,6 +102,7 @@ const Home = () => {
                 </div>
             </Container>
 
+            {/* HERO AREA services... */}
             <Container class1="home-wrapper-2 py-5">
                 <div className='row'>
                     <div className='col-12'>
@@ -121,7 +123,8 @@ const Home = () => {
                 </div>
             </Container>
 
-            <Container class1="home-wrapper-2 py-5">
+            {/* CATEGORIES AREA... */}
+            {/* <Container class1="home-wrapper-2 py-5">
                 <div className='row'>
                     <div className='col-12'>
                         <div className='categories card-wrapper d-flex flex-wrap justify-content-between align-items-center'>
@@ -184,8 +187,9 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </Container>
+            </Container> */}
 
+            {/* FEATURED COLLECTION AREA... */}
             <Container class1='home-wrapper-2 py-5 d-block featured-wrapper'>
                 <div className='row'>
                     <div className='col-12'>
@@ -281,6 +285,7 @@ const Home = () => {
                 </div>
             </Container>
 
+            {/* FEATURED COLLECTION 2 AREA... */}
             <Container class1='home-wrapper-2 py-5 d-block famous-wrapper'>
                 <div className='row'>
                     <div className='col-3'>
@@ -326,6 +331,7 @@ const Home = () => {
                 </div>
             </Container>
 
+            {/* SPECIAL PRODUCTS AREA... */}
             <Container class1='home-wrapper-2 py-5 d-block special-wrapper'>
                 <div className='row'>
                     <div className='col-12'>
@@ -335,9 +341,6 @@ const Home = () => {
                 <div className='row'>
                     {/* <SpecialProduct /> */}
                     {/* <SpecialProduct /> */}
-                    {/* <SpecialProduct /> */}
-                    {/* <SpecialProduct /> */ }
-
                     { productState && productState?.map((item, i) => {
                         if (item?.tags === 'special') {
                             return (
@@ -359,10 +362,10 @@ const Home = () => {
                             )
                         }
                     })}
-
                 </div>
             </Container>
 
+            {/* OUR POPULAR PRODUCTS AREA... */}
             <Container class1='home-wrapper-2 py-5 d-block popular-wrapper'>
                 <div className='row'>
                     <div className='col-12'>
@@ -427,7 +430,13 @@ const Home = () => {
                                     <h6 className='brand'>{ item?.brand }</h6>
                                     <h5 className='product-title'>{ item?.title }</h5>
 
-                                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ false } activeColor="#ffd700" />
+                                    <ReactStars
+                                        count={ 5 }
+                                        size={ 24 }
+                                        value={ 3 }
+                                        edit={ false }
+                                        activeColor="#ffd700"
+                                    />
 
                                     <p className='price'>$ { item?.price }</p>
                                 </div>
@@ -458,6 +467,7 @@ const Home = () => {
                 </div>
             </Container>
 
+            {/* MARQUEE AREA... */}
             <Container class1='home-wrapper-2 py-5 d-block marquee-wrapper'>
                 <div className='row'>
                     <div className='col-12'>
@@ -477,6 +487,7 @@ const Home = () => {
                 </div>
             </Container>
 
+            {/* OUR LATEST BLOGS AREA... */}
             <Container class1='home-wrapper-2 py-5 d-block blog-wrapper'>
                 <div className='row'>
                     <div className='col-12'>
