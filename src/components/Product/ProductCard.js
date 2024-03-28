@@ -38,7 +38,7 @@ const ProductCard = ({ grid, data }) => {
 
     // console.log(location.pathname);
     // console.log('product ID ', productId);
-    console.log('product -> ', data);
+    // console.log('product -> ', data);
 
     return (
         <>

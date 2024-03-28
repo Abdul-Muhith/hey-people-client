@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 
 import productService from './ProductService';
 
+import { toast } from 'react-toastify';
+
 const initialState = {
   // products: [],
   // createdProduct: "", // comment class 09
@@ -23,6 +25,14 @@ export const getAllProducts = createAsyncThunk("product/get-products", async (th
 export const getSingleProduct = createAsyncThunk("product/get-single-product", async (id, thunkAPI) => {
   try {
     return await productService.getSingleProduct(id);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const rateProduct = createAsyncThunk("product/rate-product", async (userData, thunkAPI) => {
+  try {
+    return await productService.rateProduct(userData);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -68,6 +78,24 @@ export const productSlice = createSlice({
         state.isSuccess = false;
         state.isError = true;
         state.message = action.error;
+      })
+      .addCase(rateProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(rateProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.ratedProduct = action.payload;
+        state.message = "Rating added Successfully to Product";
+        if (state.isSuccess === true) toast.success("Product Successfully Rated");
+      })
+      .addCase(rateProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+        if (state.isError === true) toast.error("Something Went Wrong on Rating Product");
       })
       .addCase(resetState, () => initialState);
   }

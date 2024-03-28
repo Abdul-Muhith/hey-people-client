@@ -18,15 +18,18 @@ import ProductColor from "../../components/Product/ProductColor";
 import Container from "../../components/Container/Container";
 import './Product.css';
 
-import { getSingleProduct, resetState, getAllProducts } from "../../features/product/ProductSlice";
+import { getSingleProduct, resetState, getAllProducts, rateProduct } from "../../features/product/ProductSlice";
 import { addProductToCart, getUserAllOwnCarts } from "../../features/cart/CartSlice";
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [alreadyAddedToCart, setAlreadyAddedToCart] = useState(false);
-  const [orderdProduct, setOrderdProduct] = useState(true);
+  const [orderedProduct, setOrderedProduct] = useState(true);
   const [propularProducts, setPopularProducts] = useState([]);
+  const [productStar, setProductStar] = useState(null);
+  const [productComment, setProductComment] = useState(null);
+  const [writeReview, setWriteReview] = useState(false);
 
   // console.log('quantity: ', quantity);
   // console.log('color: ', color);
@@ -109,6 +112,52 @@ const SingleProduct = () => {
   useEffect(() => {
     dispatch(getAllProducts());
   }, [])
+
+  const addRatingToProduct = () => {
+    if (productStar === null) toast.info("Please add Star Rating");
+    if (productComment === null) toast.info("Please add Comment Rating");
+
+    if (productStar !== null && productComment !== null) {
+      dispatch(rateProduct(
+        {
+          star: productStar,
+          comment: productComment,
+          prodId: getProductId
+        }
+      ));
+    }
+  }
+
+  // const customerReviewInfo = (text) => {
+  //   for (let index = 0; index < productState?.length; index++) {
+  //     // console.log('product ratings', productState[index]?.ratings);
+  //     // console.log('product ratings length -> ', productState[index]?.ratings.length);
+  //     if (productState[index]?.ratings.length > 0) {
+  //       // console.log('product ratings', productState[index]?.ratings);
+  //       productState[index]?.ratings?.map((item, index) => {
+  //         return (<>
+  //           {console.log('text', text)}
+  //           { console.log('item', item.star) }
+  //           <div className="review" key={ index }>
+  //             <div className="d-flex align-items-center gap-10">
+  //               <h6 className="mb-0">{ item?.postedBy }</h6>
+  //               <ReactStars
+  //                 count={ 5 }
+  //                 size={ 24 }
+  //                 // value={ 3 }
+  //                 value={ item?.star }
+  //                 edit={ true }
+  //                 activeColor="#ffd700"
+  //               />
+  //             </div>
+  //             <p className="mt-3">{ item.comment }</p>
+
+  //           </div>
+  //         </>)
+  //       })
+  //     }
+  //   }
+  // }
 
   return (
     <>
@@ -320,36 +369,81 @@ const SingleProduct = () => {
                   </div>
                 </div>
 
-                { orderdProduct && (
+                { orderedProduct && (
                   <div>
-                    <a href="#" className="text-dark text-decoration-underline">Write a Review</a>
+                    <a
+                      href="#writerivew"
+                      className="text-dark text-decoration-underline"
+                      onClick={() => setWriteReview(!writeReview)}
+                    >Write a Review</a>
                   </div>
                 )}
               </div>
 
-              <div className="review-form py-4">
-                  <h4 className='mb-2'>Write a Reviews</h4>
-                <form className='d-flex flex-column gap-15'>
-                  <div>
-                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ true } activeColor="#ffd700" />
-                  </div>
-                  <div>
-                      <textarea name='' id='' cols='30' rows='4' className='w-100 p-2' placeholder='Review' />
-                  </div>
-                  <div className="d-flex justify-content-end">
-                    <button className='button border-0'>Submit Review</button>
-                  </div>
-                </form>
-              </div>
+              { writeReview && (
+                <div className="review-form py-4">
+                  <h4 id="writerivew" className='mb-2'>Write a Reviews</h4>
+                  <form className='d-flex flex-column gap-15'>
+                    <div>
+                      <ReactStars
+                        count={ 5 }
+                        size={ 24 }
+                        value={ 0 }
+                        edit={ true }
+                        activeColor="#ffd700"
+                        onChange={(e) => setProductStar(e)}
+                      />
+                    </div>
+                    <div>
+                      <textarea
+                        name=''
+                        id=''
+                        cols='30'
+                        rows='4'
+                        className='w-100 p-2'
+                        placeholder='Type Here Your Valuable Review'
+                        onChange={(e) => setProductComment(e.target.value)}
+                      />
+                    </div>
+                    <div className="d-flex justify-content-end mt-3">
+                      <button
+                        type="button"
+                        className='button border-0'
+                        onClick={ addRatingToProduct }
+                      >Submit Review</button>
+                    </div>
+                  </form>
+                </div>
+              )}
 
               <div className="reviews mt-4">
-                <div className="review">
-                  <div className="d-flex align-items-center gap-10">
-                    <h6 className="mb-0">Heypeople</h6>
-                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ true } activeColor="#ffd700" />
-                  </div>
-                    <p className="mt-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur nisi similique illum aut perferendis voluptas, quisquam obcaecati qui nobis officia. Voluptatibus in harum deleniti labore maxime officia esse eos? Repellat?</p>
-                </div>
+                { productState && productState?.map((item, i) => {
+                  // console.log('rating -> ', item?.ratings?.length > 0 ? item.ratings : "no Data");
+
+                  if (item?.ratings?.length > 0) {
+                    // console.log('hey -> ', item.ratings);
+                    // console.log('rating -> ', item?.ratings?.star +  " no Data -> " + item?.ratings?.comment);
+
+                    return (
+                      <>
+                        <div className="review" key={ i }>
+                          <div className="d-flex align-items-center gap-10">
+                            <h6 className="mb-0">{ item?.ratings?.postedBy }</h6>
+                            <ReactStars
+                              count={ 5 }
+                              size={ 24 }
+                              // value={ 3 }
+                              value={ item?.ratings?.star }
+                              edit={ true }
+                              activeColor="#ffd700"
+                            />
+                          </div>
+                            <p className="mt-3">{ item.comment }</p>
+                        </div>
+                    </>
+                    )
+                  }
+                })}
               </div>
             </div>
           </div>
@@ -515,7 +609,7 @@ export default SingleProduct;
       //             </div>
       //           </div>
 
-      //           { orderdProduct && (
+      //           { orderedProduct && (
       //             <div>
       //               <a href="#" className="text-dark text-decoration-underline">Write a Review</a>
       //             </div>
