@@ -5,6 +5,7 @@ import { BsSearch } from 'react-icons/bs';
 
 import './Header.css';
 import { addProductToCart } from "../../features/cart/CartSlice";
+import { getSingleProduct } from "../../features/product/ProductSlice";
 
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -103,7 +104,10 @@ const Header = () => {
                                     id="pagination-example"
                                     onPaginate={() => console.log('Results paginated')}
                                     options={ productOptions }
-                                    onChange={(selected) => { navigate(`/products/${selected[0].prod}`) }}
+                                    onChange={ (selected) => {
+                                        navigate(`/products/${selected[0]?.prod}`)
+                                        dispatch(getSingleProduct(selected[0]?.prod))
+                                    } }
                                     paginate={ paginate }
                                     labelKey={ "name" }
                                     minLength={2}

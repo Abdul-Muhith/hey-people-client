@@ -14,9 +14,9 @@ const initialState = {
   message: "",
 }
 
-export const getAllProducts = createAsyncThunk("product/get-products", async (thunkAPI) => {
+export const getAllProducts = createAsyncThunk("product/get-products", async (data, thunkAPI) => {
   try {
-    return await productService.getAllProducts();
+    return await productService.getAllProducts(data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }

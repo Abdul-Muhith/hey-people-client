@@ -125,6 +125,8 @@ const SingleProduct = () => {
           prodId: getProductId
         }
       ));
+
+      setWriteReview(false);
     }
   }
 
@@ -177,7 +179,7 @@ const SingleProduct = () => {
 
             <div className="other-product-images d-flex flex-wrap gap-15">
               { singleProductState?.images?.map((item, i) => {
-                console.log('url -> ', item);
+                // console.log('url -> ', item);
                 return (
                   <>
                     <div key={i}>

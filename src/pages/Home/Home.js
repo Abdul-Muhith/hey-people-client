@@ -7,13 +7,13 @@ import moment from "moment";
 import { Link ,useNavigate } from 'react-router-dom';
 import Marquee from "react-fast-marquee";
 
+import { services } from '../../utils/Data';
+
 import BlogCard from '../../components/Blog/BlogCard';
 import ProductCard from '../../components/Product/ProductCard';
 import SpecialProduct from '../../components/Product/SpecialProduct';
 import PopularProduct from "../../components/Product/PopularProduct";
-
 import Container from '../../components/Container/Container';
-import { services } from '../../utils/Data';
 import './Home.css';
 
 import { getAllBlogs } from "../../features/blog/BlogSlice";

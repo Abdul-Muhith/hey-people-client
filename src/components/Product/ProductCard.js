@@ -24,8 +24,6 @@ const ProductCard = ({ grid, data }) => {
     const dispatch = useDispatch();
     let location = useLocation();
 
-    // console.log(location);
-    // console.log(location.pathname);
     // const { grid } = props;
 
     const addToWishlist = (id) => {
@@ -48,8 +46,8 @@ const ProductCard = ({ grid, data }) => {
                 data?.map((item, i) => {
                     return (
                         <div
-                            className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
                             key={ i }
+                            className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
                         >
                             {/* <Link */}
                             <div
@@ -106,8 +104,7 @@ const ProductCard = ({ grid, data }) => {
                                     <p
                                         className={ `description ${grid === 12 ? "d-block" : "d-none"}` }
                                         dangerouslySetInnerHTML={ { __html: item?.description?.substr(0, 70) + "..." } }
-                                    >
-                                    </p>
+                                    ></p>
 
                                     <p className='price'>${ item?.price }</p>
                                 </div>
@@ -115,10 +112,19 @@ const ProductCard = ({ grid, data }) => {
                                 <div className='action-bar position-absolute'>
                                     <div className='d-flex flex-column gap-15'>
                                         <button className='border-0 bg-transparent'>
-                                            <img src='images/prodcompare.svg' alt='compare' />
+                                            <img
+                                                src='images/prodcompare.svg'
+                                                alt='compare'
+                                            />
                                         </button>
-                                        <Link to={`/products/` + item?._id} className='border-0 bg-transparent'>
-                                            <img src='images/view.svg' alt='view' />
+                                        <Link
+                                            to={ `/products/` + item?._id }
+                                            className='border-0 bg-transparent'
+                                        >
+                                            <img
+                                                src='images/view.svg'
+                                                alt='view'
+                                            />
                                         </Link>
                                         <button className='border-0 bg-transparent'>
                                             <img src='images/add-cart.svg' alt='addcart' />
