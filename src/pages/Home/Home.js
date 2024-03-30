@@ -205,79 +205,79 @@ const Home = () => {
 
                         if (item?.tags === 'featured') {
                             return (
-                        <div
-                            // className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
-                            className="col-3"
-                            key={ i }
-                            >
-                            {/* <Link */}
-                            <div
-                                className='product-card position-relative'
-                                // to={productId !== undefined ?  "/our-store" : "/products/:id"}
-                            >
-
-                            {/* <Link
-                                className='product-card position-relative'
-                                to={ `${location.pathname == "/"
-                                    ? "/products/:id"
-                                    : location.pathname == "products/:id"
-                                        ? "/products/:id"
-                                        : ":id"
-                                }` }
-                            > */}
-
-                                <div className='wishlist-icon position-absolute'>
-                                    <button
-                                        className='border-0 bg-transparent'
-                                        onClick={ (e) => addToWishlist(item?._id) }
+                                <div
+                                    // className={ `${location.pathname === "/our-store" ? `gr-${grid}` : "col-3"}` }
+                                    className="col-3"
+                                    key={ i }
                                     >
-                                        <img src='images/wish.svg' alt='wishlist' />
-                                    </button>
-                                </div>
+                                    {/* <Link */}
+                                    <div
+                                        className='product-card position-relative'
+                                        // to={productId !== undefined ?  "/our-store" : "/products/:id"}
+                                    >
 
-                                <div className='product-image'>
-                                    <img
-                                        alt='product image'
-                                        src='images/watch.jpg'
-                                        className='img-fluid mx-auto'
-                                        width={160}
-                                    />
-                                    <img
-                                        alt='product image'
-                                        src='images/watch-2.jpg'
-                                        className='img-fluid mx-auto'
-                                        width={160}
-                                    />
-                                </div>
+                                    {/* <Link
+                                        className='product-card position-relative'
+                                        to={ `${location.pathname == "/"
+                                            ? "/products/:id"
+                                            : location.pathname == "products/:id"
+                                                ? "/products/:id"
+                                                : ":id"
+                                        }` }
+                                    > */}
 
-                                <div className='product-details'>
-                                    <h6 className='brand'>{ item?.brand }</h6>
-                                    <h5 className='product-title'>{ item?.title }</h5>
+                                        <div className='wishlist-icon position-absolute'>
+                                            <button
+                                                className='border-0 bg-transparent'
+                                                onClick={ (e) => addToWishlist(item?._id) }
+                                            >
+                                                <img src='images/wish.svg' alt='wishlist' />
+                                            </button>
+                                        </div>
 
-                                    <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ false } activeColor="#ffd700" />
-
-                                    <p className='price'>$ { item?.price }</p>
-                                </div>
-
-                                <div className='action-bar position-absolute'>
-                                    <div className='d-flex flex-column gap-15'>
-                                        <button className='border-0 bg-transparent'>
-                                            <img src='images/prodcompare.svg' alt='compare' />
-                                        </button>
-                                        <button className='border-0 bg-transparent'>
+                                        <div className='product-image'>
                                             <img
-                                                alt='view'
-                                                src='images/view.svg'
-                                                onClick={() => navigate('/products/' + item?._id)}
+                                                alt='product image'
+                                                src='images/watch.jpg'
+                                                className='img-fluid mx-auto'
+                                                width={160}
                                             />
-                                        </button>
-                                        <button className='border-0 bg-transparent'>
-                                            <img src='images/add-cart.svg' alt='addcart' />
-                                        </button>
+                                            <img
+                                                alt='product image'
+                                                src='images/watch-2.jpg'
+                                                className='img-fluid mx-auto'
+                                                width={160}
+                                            />
+                                        </div>
+
+                                        <div className='product-details'>
+                                            <h6 className='brand'>{ item?.brand }</h6>
+                                            <h5 className='product-title'>{ item?.title }</h5>
+
+                                            <ReactStars count={ 5 } size={ 24 } value={ 3 } edit={ false } activeColor="#ffd700" />
+
+                                            <p className='price'>$ { item?.price }</p>
+                                        </div>
+
+                                        <div className='action-bar position-absolute'>
+                                            <div className='d-flex flex-column gap-15'>
+                                                <button className='border-0 bg-transparent'>
+                                                    <img src='images/prodcompare.svg' alt='compare' />
+                                                </button>
+                                                <button className='border-0 bg-transparent'>
+                                                    <img
+                                                        alt='view'
+                                                        src='images/view.svg'
+                                                        onClick={() => navigate('/products/' + item?._id)}
+                                                    />
+                                                </button>
+                                                <button className='border-0 bg-transparent'>
+                                                    <img src='images/add-cart.svg' alt='addcart' />
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
                             )
                         }
                     })}
@@ -500,7 +500,7 @@ const Home = () => {
                     {/* <div className='col-3'><BlogCard /></div> */}
                     {/* <div className='col-3'><BlogCard /></div> */}
 
-                    { blogState?.map((item, i) => {
+                    { blogState && blogState?.map((item, i) => {
                         if (i < 4) {
                             return (
                                 <div className='col-3' key={i}>
