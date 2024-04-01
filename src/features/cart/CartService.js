@@ -32,11 +32,18 @@ const updateProductQuantityFromOwnCart = async (cart) => {
   if (response.data) return response.data;
 };
 
+const deleteOwnCart = async () => {
+  const response = await axios.delete(`${base_url}/user/empty-cart`, config);
+
+  if (response.data) return response.data;
+};
+
 const cartService = {
   addProductToCart,
   getUserAllOwnCarts,
   removeProductFromOwnCart,
   updateProductQuantityFromOwnCart,
+  deleteOwnCart,
 };
 
 export default cartService;

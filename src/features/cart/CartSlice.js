@@ -54,6 +54,14 @@ export const updateProductQuantityFromOwnCart = createAsyncThunk("cart/update-ow
   }
 });
 
+export const deleteOwnCart = createAsyncThunk("cart/empty-own-cart", async (thunkAPI) => {
+  try {
+    return await cartService.deleteOwnCart();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const resetState = createAction("Reset_all");
 
 export const cartSlice = createSlice({
@@ -103,8 +111,8 @@ export const cartSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.deletedProduct = action.payload;
-        state.message = "Product Deleted From Own Cart Successfully";
-        if (state.isSuccess) toast.success("Product Deleted From Own Cart Successfully");
+        state.message = "Product Deleted From Your Cart Successfully";
+        if (state.isSuccess) toast.success("Product Deleted From Your Cart Successfully");
       })
       .addCase(removeProductFromOwnCart.rejected, (state, action) => {
         state.isError = true;
@@ -130,6 +138,25 @@ export const cartSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
         if (state.isError) toast.error("Something went Wrong with Product Quantity Update !");
+      })
+      .addCase(deleteOwnCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteOwnCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deletedCart = action.payload;
+        state.message = "Cart Deleted Successfully";
+        if (state.isSuccess) toast.success("Cart Deleted Successfully");
+      })
+      .addCase(deleteOwnCart.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.message = action.error;
+        // if (state.isError) toast.error("Something went Wrong with Cart Deleted!");
+        if (state.isError) toast.error(action.payload?.data?.message);
       })
       .addCase(resetState, () => initialState);
   }

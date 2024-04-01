@@ -4,7 +4,8 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 
 import './Header.css';
-import { addProductToCart } from "../../features/cart/CartSlice";
+
+import { getUserAllOwnCarts, resetState } from "../../features/cart/CartSlice";
 import { getSingleProduct } from "../../features/product/ProductSlice";
 
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -18,8 +19,14 @@ const Header = () => {
     const navigate = useNavigate();
 
     const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
+    const isCartSuccess = useSelector((state) => state.cart?.isSuccess);
+    const createdCartState = useSelector((state) => state.cart?.createdCart);
+
     const authState = useSelector((state) => state.auth);
+    const isAuthSuccess = useSelector((state) => state.auth?.isSuccess);
+    const loggedInUserState = useSelector((state) => state.auth?.loggedInUser);
     const { isSuccess, isError, isLoading, loggedInUser } = authState;
+
     const productState = useSelector((state) => state.product?.products);
 
     // const options = range(0, 1000).map((o) => `Item ${o}`);
@@ -31,12 +38,6 @@ const Header = () => {
             setTotalCartAmount(sum);
         }
     }, [allOwnCartsState])
-
-    useEffect(() => {
-        if (isSuccess && loggedInUser) {
-            window.location.reload();
-        }
-    }, [isSuccess, isError, isLoading])
 
     useEffect(() => {
         let data = [];
@@ -53,6 +54,23 @@ const Header = () => {
 
         setProductOptions(data);
     }, [productState])
+
+    useEffect(() => {
+        if (isAuthSuccess && loggedInUserState) {
+            window.location.reload();
+        }
+    }, [loggedInUserState])
+
+    useEffect(() => {
+        if (isCartSuccess && createdCartState) {
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 500);
+
+            // dispatch(resetState());
+            dispatch(getUserAllOwnCarts());
+        }
+    }, [createdCartState])
 
     const handleLogout = () => {
         localStorage.clear();

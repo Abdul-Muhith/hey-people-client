@@ -20,6 +20,14 @@ const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const authState = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (authState?.registeredUser !== null && authState?.isError === false) {
+      // navigate("/");
+    }
+  }, [authState])
+
   let registrationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is Required"),
     lastName: Yup.string().required("Last Name is Required"),

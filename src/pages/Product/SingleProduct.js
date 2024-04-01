@@ -72,7 +72,10 @@ const SingleProduct = () => {
   // console.log('quantity: ', quantity);
   // console.log('color: ', color);
     // if (color === null) toast.error("Please Choose a color"); // TODO: amr kora
-    if (color === null) {
+
+    // console.log('single color -> ', singleProductState?.color);
+
+    if (singleProductState?.color !== undefined && color === null) {
       toast.error("Please Choose a color");
       return false;
     } else {

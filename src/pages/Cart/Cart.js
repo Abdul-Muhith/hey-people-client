@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import Container from '../../components/Container/Container';
 import './Cart.css';
 
-import { getUserAllOwnCarts, removeProductFromOwnCart, updateProductQuantityFromOwnCart, resetState } from '../../features/cart/CartSlice';
+import { getUserAllOwnCarts, removeProductFromOwnCart, updateProductQuantityFromOwnCart, deleteOwnCart, resetState } from '../../features/cart/CartSlice';
 
 const Cart = () => {
   const [productQuantity, setProductQuantity] = useState(null);
@@ -22,6 +22,8 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const allOwnCartsState = useSelector((state) => state.cart?.userAllOwnCarts);
+  const deletedCartState = useSelector((state) => state.cart?.deletedCart);
+  const successCartState = useSelector((state) => state.cart?.isSuccess);
   // console.log('allOwnCartsState', allOwnCartsState);
 
   const deleteProduct = (id) => {
@@ -31,6 +33,13 @@ const Cart = () => {
       dispatch(getUserAllOwnCarts());
     }, 200);
   }
+
+  useEffect(() => {
+    if (successCartState && deletedCartState) {
+      dispatch(getUserAllOwnCarts());
+    }
+  }, [deletedCartState])
+
 
   const updateProductQuantity = (cartItemId, quantity) => {
     dispatch(updateProductQuantityFromOwnCart({
@@ -82,6 +91,8 @@ const Cart = () => {
     }
   }, [allOwnCartsState])
 
+  console.log('cart length -> ', allOwnCartsState?.length);
+
   return (
     <>
       {/* <div>Cart</div> */}
@@ -89,6 +100,28 @@ const Cart = () => {
       <Meta title="DGC | Cart" />
       <BreadCrumb title="Cart" />
 
+      <Container class1="home-wrapper-2 pt-5 cart-wrapper">
+        <div className="row">
+          <div className="col-12">
+            <div className="d-flex justify-content-center gap-15">
+              { (allOwnCartsState?.length > 0) ? (
+                <>
+                  <h2 className="text-uppercase">Your cart</h2>
+
+                  <AiFillDelete
+                    className='text-danger fs-1'
+                    style={{cursor: 'pointer'}}
+                    onClick={() => dispatch(deleteOwnCart())}
+                    />
+                </>
+              )
+                : <h2 className="mb-5">Your Cart is Empty !</h2> }
+            </div>
+          </div>
+        </div>
+      </Container>
+
+      {(allOwnCartsState?.length > 0) &&
       <Container class1="home-wrapper-2 py-5 cart-wrapper">
           <div className="row">
             <div className="col-12">
@@ -97,6 +130,7 @@ const Cart = () => {
                 <h4 className='cart-col-2'>Price</h4>
                 <h4 className='cart-col-3'>Quantity</h4>
                 <h4 className='cart-col-4'>Total</h4>
+                <h4 className='cart-col-4'>Action</h4>
               </div>
 
               { allOwnCartsState && allOwnCartsState?.map((item, i) => {
@@ -124,11 +158,10 @@ const Cart = () => {
                       <h5 className='price'>$ {item?.price}</h5>
                     </div>
 
-                    <div className='cart-col-3 d-flex align-items-center gap-15'>
-                      <div>
+                    <div className='cart-col-3'>
                         <input
-                          type='number'
-                          className='form-control'
+                          type='numeric'
+                          className='form-control w-50'
                           min={ 1 }
                           max={ 10 }
                           name={item?._id}
@@ -140,17 +173,17 @@ const Cart = () => {
                             quantity: e.target.value
                           }) }
                         />
-                      </div>
-                      <div>
-                        <AiFillDelete
-                          className='text-danger'
-                          onClick={() => deleteProduct(item?._id)}
-                        />
-                      </div>
                     </div>
 
                     <div className='cart-col-4'>
                       <h5 className='price'>$ {item?.price * item?.quantity}</h5>
+                    </div>
+
+                    <div className='cart-col-4'>
+                      <AiFillDelete
+                        className='text-danger fs-2'
+                        onClick={() => deleteProduct(item?._id)}
+                      />
                     </div>
                   </div>
                 )
@@ -202,6 +235,7 @@ const Cart = () => {
             </div>
           </div>
         </Container>
+      }
     </>
   )
 }

@@ -39,12 +39,14 @@ const Login = () => {
 
       dispatch(userLogin(values));
       // formik.resetForm();
-
-      setTimeout(() => {
-          navigate('/');
-      }, 300)
     },
   });
+
+  useEffect(() => {
+    if (authState?.user !== null && authState?.isError === false) {
+      navigate('/');
+    }
+  }, [authState])
 
   const emailError = formik.touched.email && formik.errors.email && (
     <div className='error'>

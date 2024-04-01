@@ -90,7 +90,8 @@ export const authSlice = createSlice({
         state.user = null;
         state.message = action.error;
         // if (state.isError === true) toast(action.error.message);
-        if (state.isError === true) toast(action.error);
+        // if (state.isError === true) toast(action.error);
+        if (state.isError === true) toast(action.payload.response.data.message);
       })
       // LECTURE 03
       .addCase(userLogin.pending, (state) => {
@@ -114,7 +115,8 @@ export const authSlice = createSlice({
         state.user = null;
         state.message = action.error;
         // if (state.isError === true) toast(action.error.message);
-        if (state.isError === true) toast(action.error);
+        // if (state.isError === true) toast(action.error);
+        if (state.isError === true) toast(action.payload.response.data.message);
       })
       .addCase(forgotPasswordToken.pending, (state) => {
         state.isLoading = true;

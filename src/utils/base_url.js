@@ -4,6 +4,3 @@
 // LIVE SERVER
 export const base_url = `https://hey-people-backend.onrender.com/api/v1`;
 
-
-
-

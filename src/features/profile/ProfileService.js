@@ -3,18 +3,6 @@ import axios from 'axios';
 import { base_url } from '../../utils/base_url';
 import { config } from '../../utils/axiosConfig';
 
-const getProducts = async () => {
-  const response = await axios.get(`${base_url}/product/all-products`);
-
-  return response.data;
-};
-
-const createProduct = async (product) => {
-  const response = await axios.post(`${base_url}/product/`, product, config);
-
-  return response.data;
-};
-
 const getOwnProfile = async (id) => {
   const response = await axios.get(`${base_url}/user/${id}`, config);
 
@@ -24,6 +12,7 @@ const getOwnProfile = async (id) => {
 const updateOwnProfile = async (user) => {
 
   // const response = await axios.put(`${base_url}/user/edit-user`, {
+  //TODO: এভাবে কাজ না করার কারণ হলো, ব্যাকএন্ডে আমরা firstname.firstname বলতে কিছু পাচ্ছি না। body মাসে সরাসরি একটা অবজেক্ট পাস করতে হবে।
     //   firstname: user.userData.firstname,
     //   lastname: user.userData.lastname,
     //   email: user.userData.email,
@@ -33,9 +22,12 @@ const updateOwnProfile = async (user) => {
     // }, config);
     // console.log('service after -> ', user);
 
-    const response = await axios.put(`${base_url}/user/edit-user`, user, config);
+  const response = await axios.put(`${base_url}/user/edit-user`, user, config);
 
-  return response.data;
+  // console.log('profile service -> ', user);
+  // const response = await axios.put(`${base_url}/user/edit-user`, user.data, user.config);
+
+  // return response.data;
 };
 
 const profileService = {

@@ -12,23 +12,6 @@ const initialState = {
   message: "",
 }
 
-export const getProducts = createAsyncThunk("user/get-profiles", async (thunkAPI) => {
-  try {
-    return await profileService.getProducts();
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-export const createProducts = createAsyncThunk("user/create-profiles", async (userData, thunkAPI) => {
-    try {
-      return await profileService.createProduct(userData);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const getOwnProfile = createAsyncThunk("user/get-own-profile", async (id, thunkAPI) => {
   try {
     return await profileService.getOwnProfile(id);
@@ -37,6 +20,7 @@ export const getOwnProfile = createAsyncThunk("user/get-own-profile", async (id,
   }
 });
 
+// export const updateOwnProfile = createAsyncThunk("user/profile/update-self", async (userData, thunkAPI) => {
 export const updateOwnProfile = createAsyncThunk("user/profile/update-self", async (userData, thunkAPI) => {
   try {
     return await profileService.updateOwnProfile(userData);
@@ -53,38 +37,6 @@ export const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // .addCase(getProducts.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(getProducts.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = false;
-      //   state.isSuccess = true;
-      //   state.products = action.payload;
-      //   state.message = "success";
-      // })
-      // .addCase(getProducts.rejected, (state, action) => {
-      //   state.isError = true;
-      //   state.isLoading = false;
-      //   state.isSuccess = false;
-      //   state.products = null;
-      //   state.message = action.error;
-      // })
-      // .addCase(createProducts.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(createProducts.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = false;
-      //   state.isSuccess = true;
-      //   state.createdProduct = action.payload;
-      // })
-      // .addCase(createProducts.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = true;
-      //   state.isSuccess = false;
-      //   state.message = action.error;
-      // })
       .addCase(getOwnProfile.pending, (state) => {
         state.isLoading = true;
       })
@@ -109,7 +61,23 @@ export const profileSlice = createSlice({
         state.isSuccess = true;
         state.updatedProfile = action.payload;
         state.message = "Profile Successfully Updated";
-        if (state.isSuccess === true) toast("Your Profile Successfully Updated");
+        if (state.isSuccess === true) {
+          const getDataFromLocalStorage = JSON.parse(localStorage.getItem("customer"));
+
+          const newUserData = {
+            _id: getDataFromLocalStorage?._id,
+            token: getDataFromLocalStorage?.token,
+            firstName: action.payload?.firstName,
+            lastName: action.payload?.lastName,
+            email: action.payload?.email,
+            mobile: action.payload?.mobile
+          };
+
+          localStorage.setItem("customer", JSON.stringify(newUserData));
+          state.profiles = newUserData;
+
+          toast.success("Your Profile Successfully Updated");
+        }
       })
       .addCase(updateOwnProfile.rejected, (state, action) => {
         state.isLoading = false;

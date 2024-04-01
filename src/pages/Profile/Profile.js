@@ -13,6 +13,8 @@ import { FiEdit } from 'react-icons/fi';
 
 import { updateOwnProfile, getOwnProfile } from '../../features/profile/ProfileSlice';
 
+import { config } from '../../utils/axiosConfig';
+
 const Profile = () => {
   const [edit, setEdit] = useState(true);
   const dispatch = useDispatch();
@@ -27,10 +29,10 @@ const Profile = () => {
   let profileSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is Required"),
     lastName: Yup.string().required("Last Name is Required"),
-    email: Yup.string().email("Email Should be Valid").required("Email Address is Required"),
-    mobile: Yup.string().required("Mobile is Required"),
-    role: Yup.string().required("Role is Required"),
-    password: Yup.string().required("Password is Required"),
+    // email: Yup.string().email("Email Should be Valid").required("Email Address is Required"),
+    // mobile: Yup.string().required("Mobile is Required"),
+    // role: Yup.string().required("Role is Required"),
+    // password: Yup.string().required("Password is Required"),
   });
 
   const formik = useFormik({
@@ -45,10 +47,11 @@ const Profile = () => {
     },
     validationSchema: profileSchema,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
 
       if (edit === false) {
         dispatch(updateOwnProfile(values));
+        // dispatch(updateOwnProfile({ data: values, config: config }));
         // formik.resetForm();
       }
         setEdit(true);
@@ -60,7 +63,6 @@ const Profile = () => {
     dispatch(getOwnProfile(ownProfileId));
   }
   }, [ownProfileId])
-
 
   const firstNameError = formik.touched.firstName && formik.errors.firstName && (
     <div className='error'>
@@ -159,7 +161,7 @@ const Profile = () => {
                   />
                 </div>
                 { mobileError }
-
+{/*
                 <div className="mt-3">
                   <label htmlFor="role" className="form-label">Role</label>
                   <input
@@ -172,7 +174,7 @@ const Profile = () => {
                     disabled={ edit }
                   />
                 </div>
-                { roleError }
+                { roleError } */}
 
                 <div className="mt-3">
                   <label htmlFor="email" className="form-label">Email address</label>
@@ -189,7 +191,7 @@ const Profile = () => {
                   <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 { emailError }
-
+{/*
                 <div className="mt-3">
                   <label htmlFor="password" className="form-label">Password</label>
                   <input
@@ -202,7 +204,7 @@ const Profile = () => {
                     disabled={ edit }
                   />
                 </div>
-                { passwordError }
+                { passwordError } */}
 
                 { !edit &&
                   <div className="mt-5 text-center">
